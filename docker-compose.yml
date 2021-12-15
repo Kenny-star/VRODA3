@@ -19,6 +19,7 @@ services:
 
   mysql30:
     image: mysql:5.7
+    platform: linux/amd64
     #mem_limit: 350m
     ports:
       - "3320:3306"
