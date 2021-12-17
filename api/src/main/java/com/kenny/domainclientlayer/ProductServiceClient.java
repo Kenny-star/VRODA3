@@ -2,11 +2,14 @@ package com.kenny.domainclientlayer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 import com.kenny.dtos.Product;
+import reactor.core.publisher.Mono;
 
 @Component
 public class ProductServiceClient {
@@ -23,12 +26,11 @@ public class ProductServiceClient {
         hostname = "http://" + productServiceHost + ":" + productServicePort;
     }
 
-    public Flux<Product> getProductByID(final int product_id){
-        return webClientBuilder.build()
-                .get()
+    public Mono<Product> getProductByID(final int product_id){
+        return webClientBuilder.build().get()
                 .uri(hostname + "/product/{product_id}", product_id)
                 .retrieve()
-                .bodyToFlux(Product.class);
+                .bodyToMono(Product.class);
     }
     public Flux<Product> getAllProducts() {
         return webClientBuilder.build().get()
@@ -36,4 +38,25 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToFlux(Product.class);
     }
+    public Mono<Product> createProduct(Product product) {
+        String url = hostname + "/newProduct/" + product.getProduct_id();
+        return webClientBuilder.build()
+                .post()
+                .uri(url)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(product), Product.class)
+                .retrieve()
+                .bodyToMono(Product.class);
+    }
+/*
+    public Mono<Void> deleteProductById(int product_id){
+        return webClientBuilder.build()
+                .delete()
+                .uri(hostname + "/delProduct/{product_id}", product_id)
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
+
+ */
+
 }

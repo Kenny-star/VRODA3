@@ -11,9 +11,9 @@ import java.util.List;
 public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
-    Product VisitDTOToEntity(ProductDTO product);
+    Product ProductToEntity(Product product);
 
-    ProductDTO entityToModel(Product entity);
+    Product entityToModel(Product entity);
 
     List<ProductDTO> entityToModelList(List<Product> entity);
 }
