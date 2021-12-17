@@ -1,6 +1,6 @@
 services:
   product:
-    build: product-service
+    build: microservices/product-service
     hostname: product
     environment:
       - SPRING_PROFILES_ACTIVE=docker

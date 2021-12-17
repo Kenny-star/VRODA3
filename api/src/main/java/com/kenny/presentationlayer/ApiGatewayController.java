@@ -4,10 +4,9 @@ import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,4 +20,24 @@ public class ApiGatewayController {
         return productServiceClient.getAllProducts();
     }
 
+    @GetMapping(value = "product/{product_id}")
+    public Mono<Product> getProductByID(@PathVariable int product_id){
+        return productServiceClient.getProductByID(product_id);
+    }
+
+    @PostMapping(
+            value = "newProduct/{product_id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    Mono<Product> createProduct(@RequestBody Product product, @PathVariable String product_id) {
+        product.setProduct_id(Integer.parseInt(product_id));
+        return productServiceClient.createProduct(product);
+    }
+/*
+    @DeleteMapping (value = "delProduct/{product_id}")
+    public Mono<Void> deleteProductById(final @PathVariable int product_id){
+        return productServiceClient.deleteProductById(product_id);
+    }
+*/
 }
