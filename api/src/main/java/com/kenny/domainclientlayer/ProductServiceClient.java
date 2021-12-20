@@ -28,7 +28,7 @@ public class ProductServiceClient {
 
     public Mono<Product> getProductByID(final int product_id){
         return webClientBuilder.build().get()
-                .uri(hostname + "/product/{product_id}", product_id)
+                .uri(hostname + "/products/{product_id}", product_id)
                 .retrieve()
                 .bodyToMono(Product.class);
     }
@@ -48,15 +48,15 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToMono(Product.class);
     }
-/*
-    public Mono<Void> deleteProductById(int product_id){
+
+    public Mono<Void> deleteProduct(final int product_id){
         return webClientBuilder.build()
                 .delete()
-                .uri(hostname + "/delProduct/{product_id}", product_id)
+                .uri(hostname + "/products/{product_id}", product_id)
                 .retrieve()
                 .bodyToMono(Void.class);
     }
 
- */
+
 
 }

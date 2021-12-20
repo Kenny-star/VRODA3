@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VRODA - Products</title>
     <link rel="stylesheet" href="css/styles.css" type="text/css" >
+    <link rel="stylesheet" href="css/table.css" type="text/css" >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400&display=swap" rel="stylesheet">
-
+    <!--<script src="scripts/getById.js"></script>-->
     <script src="scripts/getAllProducts.js"></script>
 </head>
 
@@ -42,8 +43,14 @@
         <div class="line2"></div>
         <div class="line3"></div>
     </div>
-</nav>
 
+
+</nav>
+<form>
+    <input type="number" name="inputText" id="inputText" value="">
+    <input type="submit" name="submit" value="submit" onclick="callService()">
+
+</form>
 
 <div id="results"></div>
 <script src="scripts/app.js"></script>

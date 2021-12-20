@@ -20,8 +20,8 @@ public class ApiGatewayController {
         return productServiceClient.getAllProducts();
     }
 
-    @GetMapping(value = "product/{product_id}")
-    public Mono<Product> getProductByID(@PathVariable int product_id){
+    @GetMapping(value = "products/{product_id}")
+    public Mono<Product> getProductByID(final @PathVariable int product_id){
         return productServiceClient.getProductByID(product_id);
     }
 
@@ -34,10 +34,10 @@ public class ApiGatewayController {
         product.setProduct_id(Integer.parseInt(product_id));
         return productServiceClient.createProduct(product);
     }
-/*
-    @DeleteMapping (value = "delProduct/{product_id}")
+
+    @DeleteMapping (value = "products/{product_id}")
     public Mono<Void> deleteProductById(final @PathVariable int product_id){
-        return productServiceClient.deleteProductById(product_id);
+        return productServiceClient.deleteProduct(product_id);
     }
-*/
+
 }

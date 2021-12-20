@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -27,10 +28,10 @@ public class ProductResource {
         return productService.getAllProducts();
     }
 
-    @GetMapping("product/{product_id}")
-    public Product getProductByID(@PathVariable("product_id") int product_id){
+    @GetMapping("/products/{product_id}")
+    public Optional<Product> getProductByID(@PathVariable("product_id") int product_id){
         log.info("Getting product by productid: {}", product_id);
-        return productService.getProductById(product_id);
+        return productService.findByProductId(product_id);
     }
 /*
     @DeleteMapping("delProduct/{product_id}")
@@ -50,5 +51,10 @@ public class ProductResource {
         log.debug("Calling ProductService:addProduct with productId: {}", product_id);
         return productService.addProduct(product);
 
+    }
+
+    @DeleteMapping(value = "products/{product_id}")
+    public void deleteProduct(@PathVariable("product_id") int product_id){
+        productService.deleteProduct(product_id);
     }
 }
