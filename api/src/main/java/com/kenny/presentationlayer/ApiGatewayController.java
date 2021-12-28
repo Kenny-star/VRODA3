@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -15,16 +16,19 @@ import reactor.core.publisher.Mono;
 public class ApiGatewayController {
     private final ProductServiceClient productServiceClient;
 
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
     public Flux<Product> getAllProduct() {
         return productServiceClient.getAllProducts();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "products/{product_id}")
     public Mono<Product> getProductByID(final @PathVariable int product_id){
         return productServiceClient.getProductByID(product_id);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping(
             value = "newProduct/{product_id}",
             consumes = "application/json",
@@ -35,6 +39,7 @@ public class ApiGatewayController {
         return productServiceClient.createProduct(product);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping (value = "products/{product_id}")
     public Mono<Void> deleteProductById(final @PathVariable int product_id){
         return productServiceClient.deleteProduct(product_id);

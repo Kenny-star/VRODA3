@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
@@ -32,6 +33,7 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToMono(Product.class);
     }
+
     public Flux<Product> getAllProducts() {
         return webClientBuilder.build().get()
                 .uri(hostname + "/products")
@@ -48,7 +50,6 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToMono(Product.class);
     }
-
     public Mono<Void> deleteProduct(final int product_id){
         return webClientBuilder.build()
                 .delete()

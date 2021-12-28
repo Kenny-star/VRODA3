@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @Slf4j
 @Timed("kenny.product")
@@ -23,24 +24,20 @@ public class ProductResource {
         this.productService = productService;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("products")
     public List<ProductDTO> findAllProducts() {
         return productService.getAllProducts();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/products/{product_id}")
     public Optional<Product> getProductByID(@PathVariable("product_id") int product_id){
         log.info("Getting product by productid: {}", product_id);
         return productService.findByProductId(product_id);
     }
-/*
-    @DeleteMapping("delProduct/{product_id}")
-    @ResponseStatus(HttpStatus.GONE)
-    public void deleteProductById(@PathVariable("product_id") int product_id) {
-        log.info("Deleting products with productId: {}", product_id );
-        productService.deleteProductById(product_id);
-    }
-*/
+
+    @CrossOrigin(origins = "*")
     @PostMapping("newProduct/{product_id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Product create(
@@ -52,7 +49,7 @@ public class ProductResource {
         return productService.addProduct(product);
 
     }
-
+    @CrossOrigin(origins = "*")
     @DeleteMapping(value = "products/{product_id}")
     public void deleteProduct(@PathVariable("product_id") int product_id){
         productService.deleteProduct(product_id);
