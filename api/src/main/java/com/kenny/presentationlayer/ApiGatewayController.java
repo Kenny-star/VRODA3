@@ -45,4 +45,16 @@ public class ApiGatewayController {
         return productServiceClient.deleteProduct(product_id);
     }
 
+    @CrossOrigin(origins = "*")
+    @PutMapping(
+            value = "products/{product_id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<Product> updateProduct(@PathVariable final int product_id, @RequestBody Product product){
+        return productServiceClient.updateProduct(product_id, product);
+    }
+
+
+
 }

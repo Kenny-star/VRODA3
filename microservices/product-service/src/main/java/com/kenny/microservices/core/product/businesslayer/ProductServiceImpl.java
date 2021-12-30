@@ -79,4 +79,26 @@ public class ProductServiceImpl implements ProductService {
         productRepository.findById(product_id).ifPresent(p -> productRepository.delete(p));
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
+
+    @Override
+    public Product updateProduct(int product_id,Product updatedProduct){
+        try{
+            Optional<Product> optionalProduct = productRepository.findById(product_id);
+            Product productfound = optionalProduct.get();
+            productfound.setPrice(updatedProduct.getPrice());
+            productfound.setCategory_id(updatedProduct.getCategory_id());
+            productfound.setQuantity(updatedProduct.getQuantity());
+            productfound.setDescription(updatedProduct.getDescription());
+            productfound.setTitle(updatedProduct.getTitle());
+            LOG.debug("product with id {} updated",product_id);
+            return productRepository.save(productfound);
+        }
+
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw new NotFoundException("Cannot update product with id: " + product_id + ".");
+        }
+    }
+
 }

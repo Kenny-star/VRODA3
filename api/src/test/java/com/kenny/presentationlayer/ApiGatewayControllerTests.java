@@ -299,4 +299,57 @@ class ApiGatewayControllerTests {
                 .jsonPath("$[1].desc").isEqualTo(product1.getDesc());
     }
 
+    @Test
+    @DisplayName("Update Product")
+    void shouldUpdateProductById(){
+        Product product = new Product();
+        product.setProduct_id(1);
+        product.setPrice(199.99);
+        product.setCategory_id(5);
+        product.setQuantity(66);
+        product.setDesc("Test Description");
+        product.setTitle("Test Product");
+
+        Product product1 = new Product();
+        product1.setProduct_id(1);
+        product1.setPrice(250);
+        product1.setCategory_id(9);
+        product1.setQuantity(31);
+        product1.setDesc("Test Description for product1");
+        product1.setTitle("Test Product1");
+
+        when(productServiceClient.createProduct(product))
+                .thenReturn(Mono.just(product));
+
+        client.post()
+                .uri("/api/gateway/newProduct/{product_id}", 1)
+                .body(Mono.just(product), Product.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.product_id").isEqualTo(product.getProduct_id())
+                .jsonPath("$.category_id").isEqualTo(product.getCategory_id())
+                .jsonPath("$.price").isEqualTo(product.getPrice())
+                .jsonPath("$.quantity").isEqualTo(product.getQuantity())
+                .jsonPath("$.title").isEqualTo(product.getTitle())
+                .jsonPath("$.desc").isEqualTo(product.getDesc());
+
+        when(productServiceClient.updateProduct(product.getProduct_id(),product1))
+                .thenReturn(Mono.just(product));
+
+        client.put()
+                .uri("/api/gateway/products/{product_id}", product.getProduct_id())
+                .body(Mono.just(product1), Product.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody();
+
+        assertEquals(productServiceClient.getProductByID(1),null);
+
+    }
+
 }

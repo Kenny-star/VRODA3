@@ -12,6 +12,8 @@ import reactor.core.publisher.Flux;
 import com.kenny.dtos.Product;
 import reactor.core.publisher.Mono;
 
+import java.awt.peer.PanelPeer;
+
 @Component
 public class ProductServiceClient {
     private final WebClient.Builder webClientBuilder;
@@ -57,6 +59,16 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToMono(Void.class);
     }
+
+    public Mono<Product> updateProduct(final int product_id, Product product){
+        return webClientBuilder.build()
+                .put()
+                .uri(hostname + "/products/{product_id}", product_id)
+                .body(Mono.just(product), Product.class)
+                .retrieve()
+                .bodyToMono(Product.class);
+    }
+
 
 
 
