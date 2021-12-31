@@ -54,4 +54,10 @@ public class ProductResource {
     public void deleteProduct(@PathVariable("product_id") int product_id){
         productService.deleteProduct(product_id);
     }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(value = "/products/{product_id}")
+    public Product updateProduct(@PathVariable int product_id, @RequestBody Product product){
+        return productService.updateProduct(product_id, product);
+    }
 }
