@@ -113,7 +113,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         when(productServiceClient.createProduct(product))
@@ -132,7 +132,7 @@ class ApiGatewayControllerTests {
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
-                .jsonPath("$.desc").isEqualTo(product.getDesc());
+                .jsonPath("$.description").isEqualTo(product.getDescription());
 
 
     }
@@ -145,7 +145,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         when(productServiceClient.createProduct(product))
@@ -169,7 +169,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         when(productServiceClient.getProductByID(product.getProduct_id()))
@@ -185,7 +185,7 @@ class ApiGatewayControllerTests {
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
-                .jsonPath("$.desc").isEqualTo(product.getDesc());
+                .jsonPath("$.description").isEqualTo(product.getDescription());
     }
 
     @Test
@@ -224,7 +224,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         when(productServiceClient.createProduct(product))
@@ -260,7 +260,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         Product product1 = new Product();
@@ -268,7 +268,7 @@ class ApiGatewayControllerTests {
         product1.setPrice(250);
         product1.setCategory_id(9);
         product1.setQuantity(31);
-        product1.setDesc("Test Description for product1");
+        product1.setDescription("Test Description for product1");
         product1.setTitle("Test Product1");
 
         List<Product> productList = new ArrayList<>();
@@ -290,13 +290,13 @@ class ApiGatewayControllerTests {
                 .jsonPath("$[0].price").isEqualTo(product.getPrice())
                 .jsonPath("$[0].quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$[0].title").isEqualTo(product.getTitle())
-                .jsonPath("$[0].desc").isEqualTo(product.getDesc())
+                .jsonPath("$[0].description").isEqualTo(product.getDescription())
                 .jsonPath("$[1].product_id").isEqualTo(product1.getProduct_id())
                 .jsonPath("$[1].category_id").isEqualTo(product1.getCategory_id())
                 .jsonPath("$[1].price").isEqualTo(product1.getPrice())
                 .jsonPath("$[1].quantity").isEqualTo(product1.getQuantity())
                 .jsonPath("$[1].title").isEqualTo(product1.getTitle())
-                .jsonPath("$[1].desc").isEqualTo(product1.getDesc());
+                .jsonPath("$[1].description").isEqualTo(product1.getDescription());
     }
 
     @Test
@@ -307,7 +307,7 @@ class ApiGatewayControllerTests {
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
-        product.setDesc("Test Description");
+        product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         Product product1 = new Product();
@@ -315,7 +315,7 @@ class ApiGatewayControllerTests {
         product1.setPrice(250);
         product1.setCategory_id(9);
         product1.setQuantity(31);
-        product1.setDesc("Test Description for product1");
+        product1.setDescription("Test Description for product1");
         product1.setTitle("Test Product1");
 
         when(productServiceClient.createProduct(product))
@@ -334,7 +334,7 @@ class ApiGatewayControllerTests {
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
-                .jsonPath("$.desc").isEqualTo(product.getDesc());
+                .jsonPath("$.description").isEqualTo(product.getDescription());
 
         when(productServiceClient.updateProduct(product.getProduct_id(),product1))
                 .thenReturn(Mono.just(product));

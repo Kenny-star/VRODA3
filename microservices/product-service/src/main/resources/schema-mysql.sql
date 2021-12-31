@@ -8,5 +8,4 @@ CREATE TABLE IF NOT EXISTS product (
     price DOUBLE NOT NULL,
     quantity INT(4) UNSIGNED NOT NULL,
     description VARCHAR(8192)
-    /*FOREIGN KEY (pet_id) REFERENCES pets(id)*/
     ) engine=InnoDB;
