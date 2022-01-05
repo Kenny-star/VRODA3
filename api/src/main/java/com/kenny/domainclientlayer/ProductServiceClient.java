@@ -70,6 +70,12 @@ public class ProductServiceClient {
     }
 
 
+    public Flux<Product> getProductByTitle(final String title){
+        return webClientBuilder.build().get()
+                .uri(hostname + "/products/title/{title}", title)
+                .retrieve()
+                .bodyToFlux(Product.class);
+    }
 
 
 }

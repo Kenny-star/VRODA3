@@ -8,5 +8,5 @@ import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-
+    List<Product> findProductByTitle(String title);
 }

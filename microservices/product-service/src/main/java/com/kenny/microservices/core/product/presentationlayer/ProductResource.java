@@ -60,4 +60,11 @@ public class ProductResource {
     public Product updateProduct(@PathVariable int product_id, @RequestBody Product product){
         return productService.updateProduct(product_id, product);
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/products/title/{title}")
+    public List<Product> getProductByTitle(@PathVariable("title") String title){
+        log.info("Getting product by title: {}", title);
+        return productService.getProductByTitle(title);
+    }
 }

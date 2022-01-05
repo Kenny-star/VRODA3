@@ -18,4 +18,6 @@ public interface ProductService {
     public void deleteProduct(int product_id);
 
     public Product updateProduct(int product_id, Product product);
+
+    List<Product> getProductByTitle(String title);
 }
