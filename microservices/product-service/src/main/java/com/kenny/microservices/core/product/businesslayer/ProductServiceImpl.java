@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -101,4 +102,19 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public List<Product> getProductByTitle(String title) {
+        //try{
+            List<Product> products = productRepository.findProductByTitle(title);
+            List<Product> productDTOList = products.stream()
+                    .filter(v -> v != null)
+                    .map(product -> mapper.entityToModel(product))
+                    .collect(Collectors.toList());
+            return productDTOList;
+        //}
+//
+//        catch (Exception e){
+//            throw new NotFoundException("Product of title " + title+" could not be found");
+//        }
+    }
 }

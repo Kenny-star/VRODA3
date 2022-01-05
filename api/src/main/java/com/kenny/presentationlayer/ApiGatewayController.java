@@ -55,6 +55,11 @@ public class ApiGatewayController {
         return productServiceClient.updateProduct(product_id, product);
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/products/title/{title}")
+    public Flux<Product> getProductByTitle(final @PathVariable String title){
+        return productServiceClient.getProductByTitle(title);
+    }
 
 
 }
