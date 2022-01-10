@@ -352,4 +352,59 @@ class ApiGatewayControllerTests {
 
     }
 
+    @Test
+    @DisplayName("Get Product by Title")
+    void shouldGetProductByTitle(){
+        Product product = new Product();
+        product.setProduct_id(1);
+        product.setPrice(199.99);
+        product.setCategory_id(5);
+        product.setQuantity(66);
+        product.setDescription("Test Description");
+        product.setTitle("Test Product");
+
+        Product product1 = new Product();
+        product1.setProduct_id(2);
+        product1.setPrice(250);
+        product1.setCategory_id(9);
+        product1.setQuantity(31);
+        product1.setDescription("Test Description for product1");
+        product1.setTitle("Test Product1");
+
+        Product product2 = new Product();
+        product2.setProduct_id(2);
+        product2.setPrice(250);
+        product2.setCategory_id(9);
+        product2.setQuantity(31);
+        product2.setDescription("Test Description for product1");
+        product2.setTitle("Test Product1");
+
+//        List<Product> productList = new ArrayList<>();
+//        productList.add(product);
+//        productList.add(product1);
+//
+//        Flux<Product> allProducts = Flux.fromIterable(productList);
+
+        when(productServiceClient.getProductByTitle("Test Product1"))
+                .thenReturn(Flux.just(product1, product2));
+
+        client.get()
+                .uri("/api/gateway/products/title/{title}", product1.getTitle())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[0].product_id").isEqualTo(product1.getProduct_id())
+                .jsonPath("$[0].category_id").isEqualTo(product1.getCategory_id())
+                .jsonPath("$[0].price").isEqualTo(product1.getPrice())
+                .jsonPath("$[0].quantity").isEqualTo(product1.getQuantity())
+                .jsonPath("$[0].title").isEqualTo(product1.getTitle())
+                .jsonPath("$[0].description").isEqualTo(product1.getDescription())
+                .jsonPath("$[1].product_id").isEqualTo(product2.getProduct_id())
+                .jsonPath("$[1].category_id").isEqualTo(product2.getCategory_id())
+                .jsonPath("$[1].price").isEqualTo(product2.getPrice())
+                .jsonPath("$[1].quantity").isEqualTo(product2.getQuantity())
+                .jsonPath("$[1].title").isEqualTo(product2.getTitle())
+                .jsonPath("$[1].description").isEqualTo(product2.getDescription());
+    }
+
 }
