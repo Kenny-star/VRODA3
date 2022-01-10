@@ -1,4 +1,4 @@
-package com.kenny.microservices.core.review;
+package com.kenny.microservices.core.auth;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
