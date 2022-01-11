@@ -3,6 +3,7 @@ package com.kenny.microservices.core.product.presentationlayer;
 import com.kenny.microservices.core.product.businesslayer.ProductService;
 import com.kenny.microservices.core.product.datalayer.Product;
 import com.kenny.microservices.core.product.datalayer.ProductDTO;
+import com.kenny.microservices.core.product.datalayer.ProductIdLessDTO;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -32,33 +34,31 @@ public class ProductResource {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/products/{product_id}")
-    public Optional<Product> getProductByID(@PathVariable("product_id") int product_id){
+    public ProductDTO getProductByID(@PathVariable("product_id") String product_id){
         log.info("Getting product by productid: {}", product_id);
         return productService.findByProductId(product_id);
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("newProduct/{product_id}")
+    @PostMapping("newProduct")
     @ResponseStatus(HttpStatus.CREATED)
-    public Product create(
-            @Valid @RequestBody Product product,
-            @PathVariable("product_id") int product_id) {
+    public ProductDTO create(
+            @Valid @RequestBody ProductIdLessDTO product) {
 
-        product.setProduct_id(product_id);
-        log.debug("Calling ProductService:addProduct with productId: {}", product_id);
         return productService.addProduct(product);
 
     }
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "products/{product_id}")
-    public void deleteProduct(@PathVariable("product_id") int product_id){
+    public void deleteProduct(@PathVariable("product_id") String product_id){
         productService.deleteProduct(product_id);
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping(value = "/products/{product_id}")
-    public Product updateProduct(@PathVariable int product_id, @RequestBody Product product){
-        return productService.updateProduct(product_id, product);
+    public ProductDTO updateProduct(@PathVariable String product_id, @RequestBody ProductDTO product){
+        product.setProduct_id(product_id);
+        return productService.updateProduct(product);
     }
 
     @CrossOrigin(origins = "*")

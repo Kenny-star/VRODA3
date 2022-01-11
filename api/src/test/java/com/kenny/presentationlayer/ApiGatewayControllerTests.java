@@ -21,6 +21,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -43,73 +44,11 @@ class ApiGatewayControllerTests {
     private WebTestClient client;
 
 
-//    @Test
-//    void shouldAddNewProduct(){
-//        Product product = new Product();
-//        product.setProduct_id(12);
-//        product.setPrice(21.5);
-//        product.setTitle("Mozart1");
-//        product.setQuantity(2);
-//        product.setCategory_id(3);
-//
-//        when(productServiceClient.createProduct(product)).thenReturn(Mono.just(product));
-///*
-//        client.get()
-//                //check the URI
-//                .uri("/api/gateway/product/1")
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectBody()
-//                .jsonPath("$.product_id").isEqualTo(12)
-//                .jsonPath("$.category_id").isEqualTo(3)
-//                .jsonPath("$.title").isEqualTo("Mozart1")
-//                .jsonPath("$.price").isEqualTo(21.5)
-//                .jsonPath("$.quantity").isEqualTo(2);
-//        */
-//    }
-
-/*
-    @Test
-    @DisplayName("Shouldn't return null when getAllProducts is issued")
-    void shouldntReturnNullForGetAllProducts(){
-       Flux<Product> list = productServiceClient.getAllProducts();
-
-        when(productServiceClient.getAllProducts())
-                .thenReturn(list);
-
-        Assertions.assertNotNull(list.collectList().block());
-
-        Assertions.assertNotNull(productServiceClient.getAllProducts());
-    }
-*/
-/*
-    @Test
-    void shouldReturnTheCorrectFirst3Products() {
-
-        Flux<Product> list = productServiceClient.getAllProducts();
-        when(productServiceClient.getAllProducts())
-                .thenReturn(list);
-
-        client.get()
-                .uri("/api/gateway/products")
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .jsonPath("$.product_id").isEqualTo(1)
-                .jsonPath("$.category_id").isEqualTo(7)
-                .jsonPath("$.title").isEqualTo("Mozart1")
-                .jsonPath("$.price").isEqualTo(32.44)
-                .jsonPath("$.quantity").isEqualTo(1);
-
-
-    }
-    */
-
     @Test
     @DisplayName("Create new Product")
     void shouldCreateProduct(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -120,7 +59,7 @@ class ApiGatewayControllerTests {
                 .thenReturn(Mono.just(product));
 
         client.post()
-                .uri("/api/gateway/newProduct/{product_id}", 1)
+                .uri("/api/gateway/newProduct")
                 .body(Mono.just(product), Product.class)
                 .accept(APPLICATION_JSON)
                 .exchange()
@@ -141,7 +80,7 @@ class ApiGatewayControllerTests {
     @DisplayName("Body does not exist on post")
     void shouldThrowMediaTypeErrorIfBodyNotPresent(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -152,20 +91,20 @@ class ApiGatewayControllerTests {
                 .thenReturn(Mono.just(product));
 
         client.post()
-                .uri("/api/gateway/newProduct/{product_id}", product.getProduct_id())
+                .uri("/api/gateway/newProduct")
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isEqualTo(UNSUPPORTED_MEDIA_TYPE)
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.path").isEqualTo("/api/gateway/newProduct/" + product.getProduct_id());
+                .jsonPath("$.path").isEqualTo("/api/gateway/newProduct");
     }
 
     @Test
     @DisplayName("Get Product by ID")
     void shouldGetProductByID(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -186,6 +125,8 @@ class ApiGatewayControllerTests {
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
                 .jsonPath("$.description").isEqualTo(product.getDescription());
+
+        System.out.println("/api/gateway/products/" + product.getProduct_id());
     }
 
     @Test
@@ -220,7 +161,7 @@ class ApiGatewayControllerTests {
     @DisplayName("Delete Product By Id")
     void shouldDeleteProductByID(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -231,7 +172,7 @@ class ApiGatewayControllerTests {
                 .thenReturn(Mono.just(product));
 
         client.post()
-                .uri("/api/gateway/newProduct/{product_id}", 1)
+                .uri("/api/gateway/newProduct")
                 .body(Mono.just(product), Product.class)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -239,10 +180,10 @@ class ApiGatewayControllerTests {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody();
 
-        assertEquals(Optional.ofNullable(product.getProduct_id()),Optional.ofNullable(1));
+        assertEquals(Optional.ofNullable(product.getProduct_id()),Optional.ofNullable(product.getProduct_id()));
 
         client.delete()
-                .uri("/api/gateway/products/1")
+                .uri("/api/gateway/products/{product_id}", product.getProduct_id())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
@@ -256,7 +197,7 @@ class ApiGatewayControllerTests {
     @DisplayName("Get All Products")
     void shouldGetAllRoles(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -264,7 +205,7 @@ class ApiGatewayControllerTests {
         product.setTitle("Test Product");
 
         Product product1 = new Product();
-        product1.setProduct_id(2);
+        product1.setProduct_id(UUID.randomUUID().toString());
         product1.setPrice(250);
         product1.setCategory_id(9);
         product1.setQuantity(31);
@@ -285,13 +226,13 @@ class ApiGatewayControllerTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$[0].product_id").isEqualTo(product.getProduct_id())
+                .jsonPath("$[0].product_id").isEqualTo(product.getProduct_id().toString())
                 .jsonPath("$[0].category_id").isEqualTo(product.getCategory_id())
                 .jsonPath("$[0].price").isEqualTo(product.getPrice())
                 .jsonPath("$[0].quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$[0].title").isEqualTo(product.getTitle())
                 .jsonPath("$[0].description").isEqualTo(product.getDescription())
-                .jsonPath("$[1].product_id").isEqualTo(product1.getProduct_id())
+                .jsonPath("$[1].product_id").isEqualTo(product1.getProduct_id().toString())
                 .jsonPath("$[1].category_id").isEqualTo(product1.getCategory_id())
                 .jsonPath("$[1].price").isEqualTo(product1.getPrice())
                 .jsonPath("$[1].quantity").isEqualTo(product1.getQuantity())
@@ -303,7 +244,7 @@ class ApiGatewayControllerTests {
     @DisplayName("Update Product")
     void shouldUpdateProductById(){
         Product product = new Product();
-        product.setProduct_id(1);
+        product.setProduct_id(UUID.randomUUID().toString());
         product.setPrice(199.99);
         product.setCategory_id(5);
         product.setQuantity(66);
@@ -311,7 +252,7 @@ class ApiGatewayControllerTests {
         product.setTitle("Test Product");
 
         Product product1 = new Product();
-        product1.setProduct_id(1);
+        product1.setProduct_id(UUID.randomUUID().toString());
         product1.setPrice(250);
         product1.setCategory_id(9);
         product1.setQuantity(31);
@@ -322,21 +263,20 @@ class ApiGatewayControllerTests {
                 .thenReturn(Mono.just(product));
 
         client.post()
-                .uri("/api/gateway/newProduct/{product_id}", 1)
+                .uri("/api/gateway/newProduct")
                 .body(Mono.just(product), Product.class)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.product_id").isEqualTo(product.getProduct_id())
                 .jsonPath("$.category_id").isEqualTo(product.getCategory_id())
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
                 .jsonPath("$.description").isEqualTo(product.getDescription());
 
-        when(productServiceClient.updateProduct(product.getProduct_id(),product1))
+        when(productServiceClient.updateProduct(product1))
                 .thenReturn(Mono.just(product));
 
         client.put()
@@ -348,7 +288,7 @@ class ApiGatewayControllerTests {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody();
 
-        assertEquals(productServiceClient.getProductByID(1),null);
+        assertEquals(productServiceClient.getProductByID(product.getProduct_id()),null);
 
     }
 

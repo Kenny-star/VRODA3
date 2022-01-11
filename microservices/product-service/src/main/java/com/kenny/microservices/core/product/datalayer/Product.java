@@ -26,8 +26,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "product_id")
-    private int product_id;
+    @Size(max = 8192)
+    @Column(name = "product_id",unique = true, nullable = false)
+    @Builder.Default
+    private String product_id = UUID.randomUUID().toString().replace("-", "");
 
     @Column(name = "category_id")
     private int category_id;

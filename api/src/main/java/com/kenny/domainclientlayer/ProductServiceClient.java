@@ -13,6 +13,7 @@ import com.kenny.dtos.Product;
 import reactor.core.publisher.Mono;
 
 import java.awt.peer.PanelPeer;
+import java.util.UUID;
 
 @Component
 public class ProductServiceClient {
@@ -29,7 +30,7 @@ public class ProductServiceClient {
         hostname = "http://" + productServiceHost + ":" + productServicePort;
     }
 
-    public Mono<Product> getProductByID(final int product_id){
+    public Mono<Product> getProductByID(final String product_id){
         return webClientBuilder.build().get()
                 .uri(hostname + "/products/{product_id}", product_id)
                 .retrieve()
@@ -43,7 +44,7 @@ public class ProductServiceClient {
                 .bodyToFlux(Product.class);
     }
     public Mono<Product> createProduct(Product product) {
-        String url = hostname + "/newProduct/" + product.getProduct_id();
+        String url = hostname + "/newProduct";
         return webClientBuilder.build()
                 .post()
                 .uri(url)
@@ -52,7 +53,7 @@ public class ProductServiceClient {
                 .retrieve()
                 .bodyToMono(Product.class);
     }
-    public Mono<Void> deleteProduct(final int product_id){
+    public Mono<Void> deleteProduct(final String product_id){
         return webClientBuilder.build()
                 .delete()
                 .uri(hostname + "/products/{product_id}", product_id)
@@ -60,10 +61,10 @@ public class ProductServiceClient {
                 .bodyToMono(Void.class);
     }
 
-    public Mono<Product> updateProduct(final int product_id, Product product){
+    public Mono<Product> updateProduct(Product product){
         return webClientBuilder.build()
                 .put()
-                .uri(hostname + "/products/{product_id}", product_id)
+                .uri(hostname + "/products/{product_id}", product.getProduct_id())
                 .body(Mono.just(product), Product.class)
                 .retrieve()
                 .bodyToMono(Product.class);
