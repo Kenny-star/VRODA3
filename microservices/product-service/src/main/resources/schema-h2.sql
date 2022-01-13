@@ -2,7 +2,7 @@ DROP TABLE product IF EXISTS;
 
 CREATE TABLE product (
                          id                  INTEGER IDENTITY PRIMARY KEY,
-                         product_id          INTEGER NOT NULL,
+                         product_id          VARCHAR(36) NOT NULL UNIQUE,
                          category_id         INTEGER NOT NULL,
                          title               VARCHAR(8192),
                          price               DOUBLE NOT NULL,

@@ -5,15 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Product {
 
-    private Integer product_id = null;
+    private String productId = null;
 
-    private Integer category_id = null;
+    private Integer categoryId = null;
 
     private Integer quantity = null;
 

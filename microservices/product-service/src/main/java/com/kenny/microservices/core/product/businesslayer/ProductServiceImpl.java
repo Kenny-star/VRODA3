@@ -2,6 +2,7 @@ package com.kenny.microservices.core.product.businesslayer;
 
 import com.kenny.microservices.core.product.datalayer.Product;
 import com.kenny.microservices.core.product.datalayer.ProductDTO;
+import com.kenny.microservices.core.product.datalayer.ProductIdLessDTO;
 import com.kenny.microservices.core.product.datalayer.ProductRepository;
 import com.kenny.microservices.core.product.utils.exceptions.InvalidInputException;
 import com.kenny.microservices.core.product.utils.exceptions.NotFoundException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.UUID;
+
 
 @Service
 @Slf4j
@@ -31,44 +34,35 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProducts() {
-        List<Product> bills = productRepository.findAll();
-        List<ProductDTO> dtos = mapper.entityToModelList(bills);
+        List<Product> products = productRepository.findAll();
+        List<ProductDTO> dtos = mapper.entityToModelList(products);
 
         return dtos;
     }
 
     @Override
-    public Optional<Product> findByProductId(int product_id) {
-        try{
-            Optional<Product> product = productRepository.findById(product_id);
-            return product;
-        }
+    public ProductDTO getProductById(String product_id) {
 
-        catch (Exception e){
-            throw new NotFoundException("Product of ID " + product_id+" could not be found");
-        }
+            Optional<Product> product = productRepository.findProductByProductId(UUID.fromString(product_id));
+            if(product.get().getTitle() == null)
+                throw new NotFoundException("Product with productId: " + product_id + " does not exist.");
+            ProductDTO productDTO = mapper.EntityToModelDTO(product.get());
+            return productDTO;
+
     }
 
 
-    /*
-        @Override
-        public void deleteProductById(int product_id) {
-            log.debug("Product object is deleted with this product_id: " + product_id);
-            Product product = productRepository.findByProductId(product_id).orElse(new Product());
-            if(product.getTitle() !=null)
-                productRepository.delete(product);
-
-            log.debug("Product deleted");
-        }
-    */
     @Override
-    public Product addProduct(Product product) {
+    public ProductDTO addProduct(ProductIdLessDTO product) {
 
         try{
-            Product productEntity = mapper.ProductToEntity(product);
-            log.info("Calling product repo to create a product with productId: {}", product.getProduct_id());
+            Product productEntity = mapper.ProductIdLessDtoToEntity(product);
+            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
             Product createdEntity = productRepository.save(productEntity);
-            return mapper.entityToModel(createdEntity);
+
+
+            return mapper.EntityToModelDTO(createdEntity);
+
         }
         catch(DuplicateKeyException dke){
             throw new InvalidInputException("Duplicate productId.", dke);
@@ -76,30 +70,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(int product_id){
-        productRepository.findById(product_id).ifPresent(p -> productRepository.delete(p));
+    public void deleteProduct(String product_id){
+        Product product = productRepository.findProductByProductId(UUID.fromString(product_id)).orElse(new Product());
+        if(product.getProductId() != null)
+            productRepository.delete(product);
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
     @Override
-    public Product updateProduct(int product_id,Product updatedProduct){
-        try{
-            Optional<Product> optionalProduct = productRepository.findById(product_id);
-            Product productfound = optionalProduct.get();
-            productfound.setPrice(updatedProduct.getPrice());
-            productfound.setCategory_id(updatedProduct.getCategory_id());
-            productfound.setQuantity(updatedProduct.getQuantity());
-            productfound.setDescription(updatedProduct.getDescription());
-            productfound.setTitle(updatedProduct.getTitle());
-            LOG.debug("product with id {} updated",product_id);
-            return productRepository.save(productfound);
-        }
-
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            throw new NotFoundException("Cannot update product with id: " + product_id + ".");
-        }
+    public ProductDTO updateProduct(ProductDTO updatedProduct){
+        Product productEntity = mapper.ProductDTOToEntity(updatedProduct);
+        Optional<Product> product = productRepository.findProductByProductId(UUID.fromString(updatedProduct.getProductId()));
+        productEntity.setProductId(product.get().getProductId());
+        log.info("Updating product with productId: {}", product.get().getProductId());
+        Product updatedProductEntity = productRepository.save(productEntity);
+        return mapper.EntityToModelDTO(updatedProductEntity);
     }
 
     @Override
