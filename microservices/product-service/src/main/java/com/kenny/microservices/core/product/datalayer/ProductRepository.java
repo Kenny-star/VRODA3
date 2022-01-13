@@ -8,9 +8,8 @@ import java.util.*;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-<<<<<<< HEAD
     List<Product> findProductByTitle(String title);
-=======
+
     Optional<Product> findProductByProductId(UUID product_id);
->>>>>>> eeed32a... Configured the the UUID for CRUDs from second sprint
+
 }
