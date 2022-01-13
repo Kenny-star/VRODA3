@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
 import java.util.stream.Collectors;
-=======
 import java.util.UUID;
->>>>>>> fd690b0... fok this sheit
+
 
 @Service
 @Slf4j
