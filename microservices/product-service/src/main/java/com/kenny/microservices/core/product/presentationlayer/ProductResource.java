@@ -64,7 +64,7 @@ public class ProductResource {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/products/title/{title}")
-    public List<Product> getProductByTitle(@PathVariable("title") String title){
+    public List<ProductDTO> getProductByTitle(@PathVariable("title") String title){
         log.info("Getting product by title: {}", title);
         return productService.getProductByTitle(title);
     }

@@ -19,7 +19,7 @@ public interface ProductService {
 
     public void deleteProduct(String product_id);
 
-    List<Product> getProductByTitle(String title);
+    List<ProductDTO> getProductByTitle(String title);
     
     public ProductDTO updateProduct(ProductDTO product);
 

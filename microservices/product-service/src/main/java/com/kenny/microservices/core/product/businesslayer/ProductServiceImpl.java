@@ -88,12 +88,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductByTitle(String title) {
+    public List<ProductDTO> getProductByTitle(String title) {
         //try{
             List<Product> products = productRepository.findProductByTitle(title);
-            List<Product> productDTOList = products.stream()
+            List<ProductDTO> productDTOList = products.stream()
                     .filter(v -> v != null)
-                    .map(product -> mapper.entityToModel(product))
+                    .map(mapper::EntityToModelDTO)
                     .collect(Collectors.toList());
             return productDTOList;
         //}
