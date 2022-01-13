@@ -21,6 +21,7 @@ public class ApiGatewayController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
     public Flux<Product> getAllProduct() {
+        log.info("Getting products ");
         return productServiceClient.getAllProducts();
     }
 
@@ -28,6 +29,7 @@ public class ApiGatewayController {
     @GetMapping(value = "products/{product_id}",
                 produces = "application/json")
     public Mono<Product> getProductByID(final @PathVariable String product_id){
+        log.info("Getting product by productid: {}", product_id);
         return productServiceClient.getProductByID(product_id);
     }
 
@@ -54,7 +56,7 @@ public class ApiGatewayController {
             produces = "application/json"
     )
     public Mono<Product> updateProduct(@PathVariable final String product_id, @RequestBody Product product){
-        product.setProduct_id(product_id);
+        product.setProductId(product_id);
         return productServiceClient.updateProduct( product);
     }
 

@@ -16,8 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
-    private String product_id;
-    private int category_id;
+    private String productId;
+    private int categoryId;
     private String title;
     private double price;
     private int quantity;

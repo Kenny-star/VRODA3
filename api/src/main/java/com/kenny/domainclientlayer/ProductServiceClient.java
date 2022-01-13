@@ -64,7 +64,7 @@ public class ProductServiceClient {
     public Mono<Product> updateProduct(Product product){
         return webClientBuilder.build()
                 .put()
-                .uri(hostname + "/products/{product_id}", product.getProduct_id())
+                .uri(hostname + "/products/{product_id}", product.getProductId())
                 .body(Mono.just(product), Product.class)
                 .retrieve()
                 .bodyToMono(Product.class);

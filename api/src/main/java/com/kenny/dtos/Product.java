@@ -13,9 +13,9 @@ import java.util.UUID;
 @Builder(toBuilder = true)
 public class Product {
 
-    private String product_id = null;
+    private String productId = null;
 
-    private Integer category_id = null;
+    private Integer categoryId = null;
 
     private Integer quantity = null;
 

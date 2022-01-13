@@ -14,14 +14,14 @@ import java.util.UUID;
 public interface ProductMapper {
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "product_id", expression = "java(model.getProduct_id())")
+            @Mapping(target = "productId", expression = "java(UUID.fromString(model.getProductId()))")
     })
     Product ProductDTOToEntity(ProductDTO model);
 
 //    @Mapping(target = "id", ignore = true)
 //    Product ProductToEntity(Product product);
 
-    @Mapping(target = "product_id", expression = "java(entity.getProduct_id())")
+    @Mapping(target = "productId", expression = "java(entity.getProductId().toString())")
     ProductDTO EntityToModelDTO(Product entity);
 /*
     @Mapping(target = "product_id", expression = "java(entity.getProduct_Id().toString())")
@@ -29,7 +29,7 @@ public interface ProductMapper {
 */
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "product_id", ignore = true)
+            @Mapping(target = "productId", ignore = true)
     })
     Product ProductIdLessDtoToEntity(ProductIdLessDTO product);
 

@@ -26,13 +26,17 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(max = 8192)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Type(type = "uuid-char")
     @Column(name = "product_id",unique = true, nullable = false)
     @Builder.Default
-    private String product_id = UUID.randomUUID().toString().replace("-", "");
+    //Spring boot is so fun just cuz I put product_id, instead of productId, jpa repo dont understand
+    private UUID productId = UUID.randomUUID();
+    //private String product_id = UUID.randomUUID().toString().replace("-", "");
 
     @Column(name = "category_id")
-    private int category_id;
+    private int categoryId;
 
     @Size(max = 8192)
     @Column(name = "title")

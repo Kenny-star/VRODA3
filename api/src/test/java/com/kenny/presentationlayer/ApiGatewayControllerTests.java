@@ -48,9 +48,9 @@ class ApiGatewayControllerTests {
     @DisplayName("Create new Product")
     void shouldCreateProduct(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
@@ -66,8 +66,8 @@ class ApiGatewayControllerTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.product_id").isEqualTo(product.getProduct_id())
-                .jsonPath("$.category_id").isEqualTo(product.getCategory_id())
+                .jsonPath("$.productId").isEqualTo(product.getProductId())
+                .jsonPath("$.categoryId").isEqualTo(product.getCategoryId())
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
@@ -80,9 +80,9 @@ class ApiGatewayControllerTests {
     @DisplayName("Body does not exist on post")
     void shouldThrowMediaTypeErrorIfBodyNotPresent(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
@@ -104,29 +104,32 @@ class ApiGatewayControllerTests {
     @DisplayName("Get Product by ID")
     void shouldGetProductByID(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
 
-        when(productServiceClient.getProductByID(product.getProduct_id()))
+        when(productServiceClient.getProductByID(product.getProductId()))
                 .thenReturn(Mono.just(product));
 
         client.get()
-                .uri("/api/gateway/products/{product_id}", product.getProduct_id())
+                .uri("/api/gateway/products/{product_id}", product.getProductId())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.product_id").isEqualTo(product.getProduct_id())
-                .jsonPath("$.category_id").isEqualTo(product.getCategory_id())
+                .jsonPath("$.productId").isEqualTo(product.getProductId())
+                .jsonPath("$.categoryId").isEqualTo(product.getCategoryId())
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
                 .jsonPath("$.description").isEqualTo(product.getDescription());
 
-        System.out.println("/api/gateway/products/" + product.getProduct_id());
+        System.out.print("\n" +"/api/gateway/products/" + product.getProductId() + "\n");
+        System.out.printf("/api/gateway/products/%s" + "\n", product.getProductId());
+        System.out.println(productServiceClient.getProductByID(product.getProductId()).block().toString());
+
     }
 
     @Test
@@ -161,9 +164,9 @@ class ApiGatewayControllerTests {
     @DisplayName("Delete Product By Id")
     void shouldDeleteProductByID(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
@@ -180,34 +183,34 @@ class ApiGatewayControllerTests {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody();
 
-        assertEquals(Optional.ofNullable(product.getProduct_id()),Optional.ofNullable(product.getProduct_id()));
+        assertEquals(Optional.ofNullable(product.getProductId()),Optional.ofNullable(product.getProductId()));
 
         client.delete()
-                .uri("/api/gateway/products/{product_id}", product.getProduct_id())
+                .uri("/api/gateway/products/{product_id}", product.getProductId())
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus()
                 .isOk()
                 .expectBody();
 
-        assertEquals(null, productServiceClient.getProductByID(product.getProduct_id()));
+        assertEquals(null, productServiceClient.getProductByID(product.getProductId()));
     }
 
     @Test
     @DisplayName("Get All Products")
-    void shouldGetAllRoles(){
+    void shouldGetAllProducts(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         Product product1 = new Product();
-        product1.setProduct_id(UUID.randomUUID().toString());
+        product1.setProductId(UUID.randomUUID().toString());
         product1.setPrice(250);
-        product1.setCategory_id(9);
+        product1.setCategoryId(9);
         product1.setQuantity(31);
         product1.setDescription("Test Description for product1");
         product1.setTitle("Test Product1");
@@ -226,14 +229,14 @@ class ApiGatewayControllerTests {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$[0].product_id").isEqualTo(product.getProduct_id().toString())
-                .jsonPath("$[0].category_id").isEqualTo(product.getCategory_id())
+                .jsonPath("$[0].productId").isEqualTo(product.getProductId())
+                .jsonPath("$[0].categoryId").isEqualTo(product.getCategoryId())
                 .jsonPath("$[0].price").isEqualTo(product.getPrice())
                 .jsonPath("$[0].quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$[0].title").isEqualTo(product.getTitle())
                 .jsonPath("$[0].description").isEqualTo(product.getDescription())
-                .jsonPath("$[1].product_id").isEqualTo(product1.getProduct_id().toString())
-                .jsonPath("$[1].category_id").isEqualTo(product1.getCategory_id())
+                .jsonPath("$[1].productId").isEqualTo(product1.getProductId().toString())
+                .jsonPath("$[1].categoryId").isEqualTo(product1.getCategoryId())
                 .jsonPath("$[1].price").isEqualTo(product1.getPrice())
                 .jsonPath("$[1].quantity").isEqualTo(product1.getQuantity())
                 .jsonPath("$[1].title").isEqualTo(product1.getTitle())
@@ -244,17 +247,17 @@ class ApiGatewayControllerTests {
     @DisplayName("Update Product")
     void shouldUpdateProductById(){
         Product product = new Product();
-        product.setProduct_id(UUID.randomUUID().toString());
+        product.setProductId(UUID.randomUUID().toString());
         product.setPrice(199.99);
-        product.setCategory_id(5);
+        product.setCategoryId(5);
         product.setQuantity(66);
         product.setDescription("Test Description");
         product.setTitle("Test Product");
 
         Product product1 = new Product();
-        product1.setProduct_id(UUID.randomUUID().toString());
+        product1.setProductId(UUID.randomUUID().toString());
         product1.setPrice(250);
-        product1.setCategory_id(9);
+        product1.setCategoryId(9);
         product1.setQuantity(31);
         product1.setDescription("Test Description for product1");
         product1.setTitle("Test Product1");
@@ -270,7 +273,8 @@ class ApiGatewayControllerTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.category_id").isEqualTo(product.getCategory_id())
+                .jsonPath("$.productId").isEqualTo(product.getProductId())
+                .jsonPath("$.categoryId").isEqualTo(product.getCategoryId())
                 .jsonPath("$.price").isEqualTo(product.getPrice())
                 .jsonPath("$.quantity").isEqualTo(product.getQuantity())
                 .jsonPath("$.title").isEqualTo(product.getTitle())
@@ -280,7 +284,7 @@ class ApiGatewayControllerTests {
                 .thenReturn(Mono.just(product));
 
         client.put()
-                .uri("/api/gateway/products/{product_id}", product.getProduct_id())
+                .uri("/api/gateway/products/{product_id}", product.getProductId())
                 .body(Mono.just(product1), Product.class)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -288,7 +292,7 @@ class ApiGatewayControllerTests {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody();
 
-        assertEquals(productServiceClient.getProductByID(product.getProduct_id()),null);
+        assertEquals(productServiceClient.getProductByID(product.getProductId()),null);
 
     }
 

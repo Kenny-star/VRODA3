@@ -13,7 +13,7 @@ public interface ProductService {
     //public ProductDTO getProductByProductId(String product_id);
     List<ProductDTO> getAllProducts();
 
-    public ProductDTO findByProductId(String product_id);
+    public ProductDTO getProductById(String product_id);
 
     public ProductDTO addProduct(ProductIdLessDTO product);
 

@@ -43,18 +43,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO findByProductId(String product_id) {
-        try{
-            Optional<Product> product = productRepository.findById(product_id);
+    public ProductDTO getProductById(String product_id) {
+
+            Optional<Product> product = productRepository.findProductByProductId(UUID.fromString(product_id));
             if(product.get().getTitle() == null)
-                throw new NotFoundException("Visit with productId: " + product_id + " does not exist.");
+                throw new NotFoundException("Product with productId: " + product_id + " does not exist.");
             ProductDTO productDTO = mapper.EntityToModelDTO(product.get());
             return productDTO;
-        }
 
-        catch (Exception e){
-            throw new NotFoundException("Product of ID " + product_id+" could not be found");
-        }
     }
 
 
@@ -63,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
         try{
             Product productEntity = mapper.ProductIdLessDtoToEntity(product);
-            log.info("Calling product repo to create a product with productCategory: {}", product.getCategory_id());
+            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
             Product createdEntity = productRepository.save(productEntity);
 
 
@@ -77,30 +73,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(String product_id){
-        productRepository.findById(product_id).ifPresent(p -> productRepository.delete(p));
+        Product product = productRepository.findProductByProductId(UUID.fromString(product_id)).orElse(new Product());
+        if(product.getProductId() != null)
+            productRepository.delete(product);
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
     @Override
     public ProductDTO updateProduct(ProductDTO updatedProduct){
-        try{
-            Optional<Product> optionalProduct = productRepository.findById(updatedProduct.getProduct_id());
-            Product productfound = optionalProduct.get();
-            productfound.setPrice(updatedProduct.getPrice());
-            productfound.setCategory_id(updatedProduct.getCategory_id());
-            productfound.setQuantity(updatedProduct.getQuantity());
-            productfound.setDescription(updatedProduct.getDescription());
-            productfound.setTitle(updatedProduct.getTitle());
-            LOG.debug("product with id {} updated",updatedProduct.getProduct_id());
-            Product updatedProductEntity = productRepository.save(productfound);
-            return mapper.EntityToModelDTO(updatedProductEntity);
-        }
-
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            throw new NotFoundException("Cannot update product with id: " + updatedProduct.getProduct_id() + ".");
-        }
+        Product productEntity = mapper.ProductDTOToEntity(updatedProduct);
+        Optional<Product> product = productRepository.findProductByProductId(UUID.fromString(updatedProduct.getProductId()));
+        productEntity.setProductId(product.get().getProductId());
+        log.info("Updating product with productId: {}", product.get().getProductId());
+        Product updatedProductEntity = productRepository.save(productEntity);
+        return mapper.EntityToModelDTO(updatedProductEntity);
     }
 
     @Override

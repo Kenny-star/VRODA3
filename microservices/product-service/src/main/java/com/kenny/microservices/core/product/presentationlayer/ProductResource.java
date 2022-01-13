@@ -29,6 +29,7 @@ public class ProductResource {
     @CrossOrigin(origins = "*")
     @GetMapping("products")
     public List<ProductDTO> findAllProducts() {
+        log.info("Getting products ");
         return productService.getAllProducts();
     }
 
@@ -36,7 +37,7 @@ public class ProductResource {
     @GetMapping("/products/{product_id}")
     public ProductDTO getProductByID(@PathVariable("product_id") String product_id){
         log.info("Getting product by productid: {}", product_id);
-        return productService.findByProductId(product_id);
+        return productService.getProductById(product_id);
     }
 
     @CrossOrigin(origins = "*")
@@ -56,8 +57,8 @@ public class ProductResource {
 
     @CrossOrigin(origins = "*")
     @PutMapping(value = "/products/{product_id}")
-    public ProductDTO updateProduct(@PathVariable String product_id, @RequestBody ProductDTO product){
-        product.setProduct_id(product_id);
+    public ProductDTO updateProduct(@PathVariable("product_id") String product_id, @RequestBody ProductDTO product){
+        product.setProductId(product_id);
         return productService.updateProduct(product);
     }
 
