@@ -19,11 +19,8 @@ public interface ProductService {
 
     public void deleteProduct(String product_id);
 
-<<<<<<< HEAD
-    public Product updateProduct(int product_id, Product product);
-
     List<Product> getProductByTitle(String title);
-=======
+    
     public ProductDTO updateProduct(ProductDTO product);
->>>>>>> fd690b0... fok this sheit
+
 }
