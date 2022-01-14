@@ -55,7 +55,7 @@ public class ApiGatewayController {
             consumes = "application/json",
             produces = "application/json"
     )
-    public Mono<Product> updateProduct(@PathVariable final String product_id, @RequestBody Product product){
+    public Mono<Product> updateProduct(@PathVariable String product_id, @RequestBody Product product){
         product.setProductId(product_id);
         return productServiceClient.updateProduct( product);
     }

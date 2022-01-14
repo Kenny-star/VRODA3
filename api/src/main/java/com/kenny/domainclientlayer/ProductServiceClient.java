@@ -64,6 +64,7 @@ public class ProductServiceClient {
         return webClientBuilder.build()
                 .put()
                 .uri(hostname + "/products/{product_id}", product.getProductId())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(Mono.just(product), Product.class)
                 .retrieve()
                 .bodyToMono(Product.class);

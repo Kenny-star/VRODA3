@@ -56,9 +56,12 @@ public class ProductResource {
     }
 
     @CrossOrigin(origins = "*")
-    @PutMapping(value = "/products/{product_id}")
-    public ProductDTO updateProduct(@PathVariable("product_id") String product_id, @RequestBody ProductDTO product){
+    @PutMapping(value = "/products/{product_id}",
+                consumes = "application/json",
+                produces = "application/json")
+    public ProductDTO updateProduct(@PathVariable("product_id") String product_id, @Valid @RequestBody ProductDTO product){
         product.setProductId(product_id);
+        log.info("Updating product {}", product);
         return productService.updateProduct(product);
     }
 

@@ -81,7 +81,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO updateProduct(ProductDTO updatedProduct){
         Product productEntity = mapper.ProductDTOToEntity(updatedProduct);
         Optional<Product> product = productRepository.findProductByProductId(UUID.fromString(updatedProduct.getProductId()));
-        productEntity.setProductId(product.get().getProductId());
+        productEntity.setId(product.get().getId());
         log.info("Updating product with productId: {}", product.get().getProductId());
         Product updatedProductEntity = productRepository.save(productEntity);
         return mapper.EntityToModelDTO(updatedProductEntity);
