@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> getProductByTitle(String title) {
         //try{
-            List<Product> products = productRepository.findProductByTitle(title);
+            List<Product> products = productRepository.findProductsByTitleContaining(title);
             List<ProductDTO> productDTOList = products.stream()
                     .filter(v -> v != null)
                     .map(mapper::EntityToModelDTO)
