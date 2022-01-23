@@ -10,6 +10,8 @@ services:
 
   auth:
     build: microservices/auth-service
+    ports:
+      - "7001:8080"
     hostname: auth
     environment:
       - SPRING_PROFILES_ACTIVE=docker

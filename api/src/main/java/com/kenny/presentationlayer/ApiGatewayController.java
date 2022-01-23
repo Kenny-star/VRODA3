@@ -66,5 +66,9 @@ public class ApiGatewayController {
         return productServiceClient.getProductByTitle(title);
     }
 
-
+    @GetMapping(value="hello")
+    public String getHello(){
+        log.info("noice");
+        return "hello";
+    }
 }

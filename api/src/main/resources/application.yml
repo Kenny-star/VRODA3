@@ -6,6 +6,10 @@ app:
     host: localhost
     port: 7001
 
+  auth-service:
+    hots: localhost
+    port: 7002
+
 logging:
   level:
     root: INFO
@@ -20,3 +24,6 @@ app:
     host: product
     port: 8080
 
+  auth-service:
+    host: auth
+    port: 8080
