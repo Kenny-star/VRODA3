@@ -6,7 +6,8 @@ import java.util.Set;
 
 public enum ApplicationUserRole {
     CUSTOMER(Sets.newHashSet()),
-    ADMIN(Sets.newHashSet(ACCOUNT_READ, ACCOUNT_WRITE, CUSTOMER_READ, CUSTOMER_WRITE));
+    CLERK(Sets.newHashSet(CATALOG_READ, CATALOG_WRITE, CUSTOMER_READ, CUSTOMER_WRITE)),
+    ADMIN(Sets.newHashSet(CATALOG_READ, CATALOG_WRITE, ACCOUNT_READ, ACCOUNT_WRITE, CUSTOMER_READ, CUSTOMER_WRITE));
 
     private final Set<ApplicationUserPermission> permissions;
 

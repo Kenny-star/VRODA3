@@ -1,6 +1,7 @@
 package com.kenny.presentationlayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Product;
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +40,9 @@ class ApiGatewayControllerTests {
 
     @MockBean
     private ProductServiceClient productServiceClient;
+
+    @MockBean
+    private AuthServiceClient authServiceClient;
 
     @Autowired
     private WebTestClient client;

@@ -4,7 +4,9 @@ public enum ApplicationUserPermission {
     CUSTOMER_READ("student:read"),
     CUSTOMER_WRITE("customer:write"),
     ACCOUNT_READ("account:read"),
-    ACCOUNT_WRITE("account:write");
+    ACCOUNT_WRITE("account:write"),
+    CATALOG_READ("catalog:read"),
+    CATALOG_WRITE("catalog:write");
 
     private final String permission;
 

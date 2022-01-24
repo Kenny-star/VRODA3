@@ -1,7 +1,9 @@
 package com.kenny.presentationlayer;
 
+import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Product;
+import com.kenny.dtos.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +19,22 @@ import java.util.UUID;
 @RequestMapping("/api/gateway")
 public class ApiGatewayController {
     private final ProductServiceClient productServiceClient;
+    private final AuthServiceClient authServiceClient;
+
+
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
     public Flux<Product> getAllProduct() {
         log.info("Getting products ");
         return productServiceClient.getAllProducts();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "users")
+    public Flux<User> getAllUser() {
+        log.info("Getting products ");
+        return authServiceClient.getAllUsers();
     }
 
     @CrossOrigin(origins = "*")
