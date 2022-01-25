@@ -2,7 +2,9 @@ plugins {
     id 'org.springframework.boot' version '2.3.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'java-library'
     id "io.freefair.lombok" version "6.0.0-m2"
+
 }
 
 group = 'com.kenny.microservices.core.auth'
@@ -25,9 +27,9 @@ dependencies {
     implementation('mysql:mysql-connector-java')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     compile group: 'org.datanucleus', name: 'javax.persistence', version: '2.2.0-m3'
-//Thanks for using https://jar-download.com
 
-
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.3.2.RELEASE'
+    implementation('javax.mail:javax.mail-api:1.6.2')
     implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

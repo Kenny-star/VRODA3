@@ -3,11 +3,13 @@ package com.kenny.domainclientlayer;
 
 import com.kenny.dtos.Product;
 import com.kenny.dtos.User;
+import com.kenny.dtos.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Component
 public class AuthServiceClient {
@@ -31,4 +33,10 @@ public class AuthServiceClient {
                 .bodyToFlux(User.class);
     }
 
+    public Mono<UserDetails> createUser() {
+        return webClientBuilder.build().post()
+                .uri(hostname + "/registration")
+                .retrieve()
+                .bodyToMono(UserDetails.class);
+    }
 }

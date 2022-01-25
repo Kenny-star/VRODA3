@@ -9,17 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class User {
-
-    private long userId;
+public class UserDetails {
 
     private String firstName;
 
     private String lastName;
 
-    private String userName;
+    private String email;
 
     private String password;
 
-    private String roles;
 }

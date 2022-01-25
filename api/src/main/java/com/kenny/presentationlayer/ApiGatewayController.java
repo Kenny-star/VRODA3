@@ -4,6 +4,7 @@ import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Product;
 import com.kenny.dtos.User;
+import com.kenny.dtos.UserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class ApiGatewayController {
     private final AuthServiceClient authServiceClient;
 
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "registration")
+    public Mono<UserDetails> createUser() {
+        log.info("registering user ");
+        return authServiceClient.createUser();
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
@@ -78,9 +85,4 @@ public class ApiGatewayController {
         return productServiceClient.getProductByTitle(title);
     }
 
-    @GetMapping(value="hello")
-    public String getHello(){
-        log.info("noice");
-        return "hello";
-    }
 }
