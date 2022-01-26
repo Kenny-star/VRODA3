@@ -1,6 +1,8 @@
 package com.kenny.presentationlayer;
 
+import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
+import com.kenny.dtos.Cart;
 import com.kenny.dtos.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api/gateway")
 public class ApiGatewayController {
     private final ProductServiceClient productServiceClient;
+    private final CartServiceClient cartServiceClient;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
@@ -66,5 +69,21 @@ public class ApiGatewayController {
         return productServiceClient.getProductByTitle(title);
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "/cart/addToCart",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<Cart> addToCart(@RequestBody Cart cart) {
+        return cartServiceClient.addToCart(cart);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "cart")
+    public Flux<Cart> getTheCart() {
+        log.info("Getting products ");
+        return cartServiceClient.getTheCart();
+    }
 
 }
