@@ -44,4 +44,12 @@ public class CartServiceClient {
                 .retrieve()
                 .bodyToFlux(Cart.class);
     }
+
+    public Mono<Void> deleteCart(final String product_id){
+        return webClientBuilder.build()
+                .delete()
+                .uri(hostname + "/cart/delete/{product_id}", product_id)
+                .retrieve()
+                .bodyToMono(Void.class);
+    }
 }

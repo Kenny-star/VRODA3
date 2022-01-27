@@ -86,4 +86,10 @@ public class ApiGatewayController {
         return cartServiceClient.getTheCart();
     }
 
+    @CrossOrigin(origins = "*")
+    @DeleteMapping (value = "/cart/delete/{product_id}")
+    public Mono<Void> deleteCart(final @PathVariable String product_id){
+        return cartServiceClient.deleteCart(product_id);
+    }
+
 }
