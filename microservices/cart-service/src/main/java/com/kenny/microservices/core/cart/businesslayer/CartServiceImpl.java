@@ -64,4 +64,12 @@ public class CartServiceImpl implements CartService{
         return dtos;
     }
 
+    @Override
+    public void deleteCart(String product_id){
+        Cart product = cartRepository.findProductByProductId(UUID.fromString(product_id)).orElse(new Cart());
+        if(product.getProductId() != null)
+            cartRepository.delete(product);
+        LOG.debug("Product of ID: " + product_id + "has been deleted.");
+    }
+
 }

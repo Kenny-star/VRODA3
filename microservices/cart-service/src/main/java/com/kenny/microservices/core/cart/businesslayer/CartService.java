@@ -9,4 +9,7 @@ public interface CartService {
     public CartDTO addToCart(CartIdLessDTO product);
 
     List<CartDTO> getTheCart();
+
+    public void deleteCart(String product_id);
+
 }

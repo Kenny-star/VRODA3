@@ -37,4 +37,10 @@ public class CartResource {
         log.info("Getting the cart ");
         return cartService.getTheCart();
     }
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping(value = "/cart/delete/{product_id}")
+    public void deleteCart(@PathVariable("product_id") String product_id){
+        cartService.deleteCart(product_id);
+    }
 }
