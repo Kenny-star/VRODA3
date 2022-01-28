@@ -24,10 +24,14 @@ public class ApiGatewayController {
 
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "registration")
-    public Mono<UserDetails> createUser() {
+    @PostMapping(
+            value = "registration",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<UserDetails> createUser(@RequestBody UserDetails userDetails) {
         log.info("registering user ");
-        return authServiceClient.createUser();
+        return authServiceClient.createUser(userDetails);
     }
 
     @CrossOrigin(origins = "*")
@@ -84,5 +88,6 @@ public class ApiGatewayController {
     public Flux<Product> getProductByTitle(final @PathVariable String title){
         return productServiceClient.getProductByTitle(title);
     }
+
 
 }

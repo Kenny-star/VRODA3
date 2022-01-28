@@ -6,6 +6,8 @@ import com.kenny.dtos.User;
 import com.kenny.dtos.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -33,10 +35,14 @@ public class AuthServiceClient {
                 .bodyToFlux(User.class);
     }
 
-    public Mono<UserDetails> createUser() {
+    public Mono<UserDetails> createUser(UserDetails userDetails) {
         return webClientBuilder.build().post()
                 .uri(hostname + "/registration")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(userDetails), UserDetails.class)
                 .retrieve()
                 .bodyToMono(UserDetails.class);
     }
+
+
 }
