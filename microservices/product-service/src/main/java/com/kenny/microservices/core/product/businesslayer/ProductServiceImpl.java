@@ -11,11 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
 
 
 @Service
@@ -52,22 +58,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    @Override
-    public ProductDTO addProduct(ProductIdLessDTO product) {
-
-        try{
-            Product productEntity = mapper.ProductIdLessDtoToEntity(product);
-            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
-            Product createdEntity = productRepository.save(productEntity);
-
-
-            return mapper.EntityToModelDTO(createdEntity);
-
-        }
-        catch(DuplicateKeyException dke){
-            throw new InvalidInputException("Duplicate productId.", dke);
-        }
-    }
+//    @Override
+//    public ProductDTO addProduct(ProductIdLessDTO product) {
+//
+//        try{
+//            Product productEntity = mapper.ProductIdLessDtoToEntity(product);
+//            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
+//            Product createdEntity = productRepository.save(productEntity);
+//
+//
+//            return mapper.EntityToModelDTO(createdEntity);
+//
+//        }
+//        catch(DuplicateKeyException dke){
+//            throw new InvalidInputException("Duplicate productId.", dke);
+//        }
+//    }
 
     @Override
     public void deleteProduct(String product_id){
@@ -101,5 +107,37 @@ public class ProductServiceImpl implements ProductService {
 //        catch (Exception e){
 //            throw new NotFoundException("Product of title " + title+" could not be found");
 //        }
+    }
+
+
+    @Override
+    public ProductDTO addProduct(MultipartFile file, String title, int categoryId, double price, int quantity, String description) {
+        try{
+            ProductIdLessDTO product = new ProductIdLessDTO();
+//            product.setProductId(randomUUID());
+            product.setCategoryId(categoryId);
+            product.setDescription(description);
+            product.setPrice(price);
+            product.setTitle(title);
+
+            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+            if(filename.contains("..")){
+                log.info("Incorrect file format. Try a valid image format");
+            }
+
+            product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+
+            Product productEntity = mapper.ProductIdLessDtoToEntity(product);
+            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
+            Product createdEntity = productRepository.save(productEntity);
+
+
+            return mapper.EntityToModelDTO(createdEntity);
+
+        }
+        catch(DuplicateKeyException | IOException dke){
+            throw new InvalidInputException("Duplicate productId.", dke);
+        }
     }
 }

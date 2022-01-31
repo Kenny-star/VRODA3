@@ -8,6 +8,7 @@ import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,12 +25,12 @@ public class CartResource {
         this.cartService = cartService;
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping( "/cart/addToCart")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CartDTO addToCart(@Valid @RequestBody CartIdLessDTO cart) {
-        return cartService.addToCart(cart);
-    }
+//    @CrossOrigin(origins = "*")
+//    @PostMapping( "/cart/addToCart")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public CartDTO addToCart(@Valid @RequestBody CartIdLessDTO cart) {
+//        return cartService.addToCart(cart);
+//    }
 
     @CrossOrigin(origins = "*")
     @GetMapping("cart")
@@ -42,5 +43,21 @@ public class CartResource {
     @DeleteMapping(value = "/cart/delete/{product_id}")
     public void deleteCart(@PathVariable("product_id") String product_id){
         cartService.deleteCart(product_id);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/cart/addToCart")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CartDTO create(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("categoryId") int categoryId,
+            @RequestParam("price") double price,
+            @RequestParam("quantity") int quantity,
+            @RequestParam("description") String description
+    ) {
+
+        return cartService.addToCart(file,title,categoryId,price,quantity,description);
+
     }
 }

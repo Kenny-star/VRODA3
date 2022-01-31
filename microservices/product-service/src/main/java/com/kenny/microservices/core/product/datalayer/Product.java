@@ -52,5 +52,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Size(max = 8192)
+    @Column(name = "image")
+    private String image;
+
 
 }

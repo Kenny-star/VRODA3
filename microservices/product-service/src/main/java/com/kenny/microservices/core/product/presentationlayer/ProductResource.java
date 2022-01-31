@@ -8,6 +8,7 @@ import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -40,15 +41,16 @@ public class ProductResource {
         return productService.getProductById(product_id);
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping("newProduct")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO create(
-            @Valid @RequestBody ProductIdLessDTO product) {
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("newProduct")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ProductDTO create(
+//            @Valid @RequestBody ProductIdLessDTO product) {
+//
+//        return productService.addProduct(product);
+//
+//    }
 
-        return productService.addProduct(product);
-
-    }
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "products/{product_id}")
     public void deleteProduct(@PathVariable("product_id") String product_id){
@@ -70,5 +72,21 @@ public class ProductResource {
     public List<ProductDTO> getProductByTitle(@PathVariable("title") String title){
         log.info("Getting product by title: {}", title);
         return productService.getProductByTitle(title);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("newProduct")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDTO create(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("categoryId") int categoryId,
+            @RequestParam("price") double price,
+            @RequestParam("quantity") int quantity,
+            @RequestParam("description") String description
+            ) {
+
+        return productService.addProduct(file,title,categoryId,price,quantity,description);
+
     }
 }

@@ -7,7 +7,8 @@ CREATE TABLE cart (
                          title               VARCHAR(8192),
                          price               DOUBLE NOT NULL,
                          quantity            INTEGER NOT NULL,
-                         description         VARCHAR(8192)
+                         description         VARCHAR(8192),
+                         image               VARCHAR(8192)
 );
 
 CREATE INDEX product_wallpaper_id ON cart (product_id);
