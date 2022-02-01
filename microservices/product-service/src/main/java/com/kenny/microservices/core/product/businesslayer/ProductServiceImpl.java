@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +61,6 @@ public class ProductServiceImpl implements ProductService {
             Product productEntity = mapper.ProductIdLessDtoToEntity(product);
             log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
             Product createdEntity = productRepository.save(productEntity);
-
-
             return mapper.EntityToModelDTO(createdEntity);
 
         }

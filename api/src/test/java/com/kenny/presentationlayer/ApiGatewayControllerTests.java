@@ -436,5 +436,40 @@ class ApiGatewayControllerTests {
                 .jsonPath("$[1].description").isEqualTo(product1.getDescription());
     }
 
+    @Test
+    @DisplayName(" Delete Cart Item")
+    void shouldDeleteCartItem(){
+        Cart product = new Cart();
+        product.setProductId(UUID.randomUUID().toString());
+        product.setPrice(199.99);
+        product.setCategoryId(5);
+        product.setQuantity(66);
+        product.setDescription("Test Description");
+        product.setTitle("Test Product");
+
+        when(cartServiceClient.addToCart(product))
+                .thenReturn(Mono.just(product));
+
+        client.post()
+                .uri("/api/gateway/cart/addToCart")
+                .body(Mono.just(product), Product.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(APPLICATION_JSON)
+                .expectBody();
+
+        assertEquals(Optional.ofNullable(product.getProductId()),Optional.ofNullable(product.getProductId()));
+
+        client.delete()
+                .uri("/api/gateway/cart/delete/{product_id}", product.getProductId())
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody();
+
+        assertEquals(null, cartServiceClient.getTheCart());
+    }
 
 }
