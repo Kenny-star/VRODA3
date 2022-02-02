@@ -1,6 +1,7 @@
 package com.kenny.microservices.core.auth.presentationlayer;
 
 import com.kenny.microservices.core.auth.businesslayer.UserService;
+import com.kenny.microservices.core.auth.datalayer.UserDetails;
 import com.kenny.microservices.core.auth.datalayer.UserEntity;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,31 @@ public class AuthResource {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping("registration")
-    //@ResponseStatus(HttpStatus.OK)
-    public String create() {
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("registration")
+//    //@ResponseStatus(HttpStatus.OK)
+//    public UserDetails create(@Valid @RequestBody UserDetails product) {
+//        log.info("hello");
+//        UserDetails u = new UserDetails();
+//        u.setFirstName(product.getFirstName());
+//        u.setLastName(product.getLastName());
+//        u.setEmail(product.getEmail());
+//        u.setPassword(product.getPassword());
+//        return u;
+//
+//    }
+@CrossOrigin(origins = "*")
+@PostMapping("registration")
+//@ResponseStatus(HttpStatus.OK)
+public ResponseEntity<?> create(@Valid @RequestBody UserDetails product) {
+    log.info("hello");
+    UserDetails u = new UserDetails();
+    u.setFirstName(product.getFirstName());
+    u.setLastName(product.getLastName());
+    u.setEmail(product.getEmail());
+    u.setPassword(product.getPassword());
+    log.info(u.getFirstName() + u.getLastName() + u.getEmail() + u.getPassword());
+    return ResponseEntity.ok().body("Something");
 
-        return "hello";
-
-    }
+}
 }

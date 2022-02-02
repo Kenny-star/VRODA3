@@ -7,11 +7,10 @@ import com.kenny.dtos.User;
 import com.kenny.dtos.UserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController()
@@ -29,9 +28,10 @@ public class ApiGatewayController {
             consumes = "application/json",
             produces = "application/json"
     )
-    public Mono<UserDetails> createUser(@RequestBody UserDetails userDetails) {
+    public Mono<ResponseEntity<String>> createUser(@RequestBody UserDetails userDetails) {
         log.info("registering user ");
         return authServiceClient.createUser(userDetails);
+
     }
 
     @CrossOrigin(origins = "*")
