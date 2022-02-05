@@ -372,7 +372,7 @@ class ApiGatewayControllerTests {
 
         client.post()
                 .uri("/api/gateway/cart/addToCart")
-                .body(Mono.just(product), Product.class)
+                .body(Mono.just(product), Cart.class)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
@@ -452,7 +452,7 @@ class ApiGatewayControllerTests {
 
         client.post()
                 .uri("/api/gateway/cart/addToCart")
-                .body(Mono.just(product), Product.class)
+                .body(Mono.just(product), Cart.class)
                 .accept(APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
@@ -472,4 +472,58 @@ class ApiGatewayControllerTests {
         assertEquals(null, cartServiceClient.getTheCart());
     }
 
+    @Test
+    @DisplayName("Update Cart Item")
+    void shouldUpdateCartProduct(){
+        Cart cart = new Cart();
+        cart.setProductId(UUID.randomUUID().toString());
+        cart.setPrice(199.99);
+        cart.setCategoryId(5);
+        cart.setQuantity(66);
+        cart.setDescription("Test Description");
+        cart.setTitle("Test Product");
+
+        Cart cart1 = new Cart();
+        cart1.setProductId(UUID.randomUUID().toString());
+        cart1.setPrice(250);
+        cart1.setCategoryId(9);
+        cart1.setQuantity(31);
+        cart1.setDescription("Test Description for product1");
+        cart1.setTitle("Test Product1");
+
+        when(cartServiceClient.addToCart(cart))
+                .thenReturn(Mono.just(cart));
+
+        client.post()
+                .uri("/api/gateway/cart/addToCart")
+                .body(Mono.just(cart), Cart.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(APPLICATION_JSON)
+                .expectBody()
+                .jsonPath("$.productId").isEqualTo(cart.getProductId())
+                .jsonPath("$.categoryId").isEqualTo(cart.getCategoryId())
+                .jsonPath("$.price").isEqualTo(cart.getPrice())
+                .jsonPath("$.quantity").isEqualTo(cart.getQuantity())
+                .jsonPath("$.title").isEqualTo(cart.getTitle())
+                .jsonPath("$.description").isEqualTo(cart.getDescription());
+
+        assertEquals(null,cartServiceClient.getTheCart());
+
+        when(cartServiceClient.updateCart(cart1))
+                .thenReturn(Mono.just(cart1));
+
+        client.put()
+                .uri("/api/gateway/cart/update/{product_id}", cart.getProductId())
+                .body(Mono.just(cart1), Cart.class)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody();
+
+        assertEquals(null,cartServiceClient.getTheCart());
+
+    }
 }

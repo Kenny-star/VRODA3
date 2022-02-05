@@ -43,4 +43,14 @@ public class CartResource {
     public void deleteCart(@PathVariable("product_id") String product_id){
         cartService.deleteCart(product_id);
     }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(value = "/cart/update/{product_id}",
+            consumes = "application/json",
+            produces = "application/json")
+    public CartDTO updateCart(@PathVariable("product_id") String product_id, @Valid @RequestBody CartDTO cart){
+        cart.setProductId(product_id);
+        log.info("Updating cart {} - Ressource", cart);
+        return cartService.updateCart(cart);
+    }
 }
