@@ -12,4 +12,6 @@ public interface CartService {
 
     public void deleteCart(String product_id);
 
+    public CartDTO updateCart(CartDTO cart);
+
 }

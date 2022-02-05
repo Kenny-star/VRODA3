@@ -92,4 +92,16 @@ public class ApiGatewayController {
         return cartServiceClient.deleteCart(product_id);
     }
 
+    @CrossOrigin(origins = "*")
+    @PutMapping(
+            value = "/cart/update/{product_id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<Cart> updateCart(@PathVariable String product_id, @RequestBody Cart cart){
+        cart.setProductId(product_id);
+        log.info("Getting products - Controller");
+        return cartServiceClient.updateCart( cart);
+    }
+
 }

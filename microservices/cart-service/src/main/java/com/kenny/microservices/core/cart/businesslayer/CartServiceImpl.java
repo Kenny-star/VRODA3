@@ -72,4 +72,13 @@ public class CartServiceImpl implements CartService{
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
+    @Override
+    public CartDTO updateCart(CartDTO updatedCart){
+        Cart productEntity = mapper.CartDTOToEntity(updatedCart);
+        Optional<Cart> product = cartRepository.findProductByProductId(UUID.fromString(updatedCart.getProductId()));
+        productEntity.setId(product.get().getId());
+        log.info("Updating cart item with productId: {}", product.get().getProductId());
+        Cart updatedProductEntity = cartRepository.save(productEntity);
+        return mapper.EntityToModelDTO(updatedProductEntity);
+    }
 }
