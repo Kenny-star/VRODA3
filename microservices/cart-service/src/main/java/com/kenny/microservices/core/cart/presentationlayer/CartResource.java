@@ -25,12 +25,12 @@ public class CartResource {
         this.cartService = cartService;
     }
 
-//    @CrossOrigin(origins = "*")
-//    @PostMapping( "/cart/addToCart")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public CartDTO addToCart(@Valid @RequestBody CartIdLessDTO cart) {
-//        return cartService.addToCart(cart);
-//    }
+    @CrossOrigin(origins = "*")
+    @PostMapping( "/cart/addToCart")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CartDTO addToCart(@Valid @RequestBody CartIdLessDTO cart) {
+        return cartService.addToCart(cart);
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping("cart")
@@ -45,19 +45,19 @@ public class CartResource {
         cartService.deleteCart(product_id);
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping("/cart/addToCart")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CartDTO create(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("title") String title,
-            @RequestParam("categoryId") int categoryId,
-            @RequestParam("price") double price,
-            @RequestParam("quantity") int quantity,
-            @RequestParam("description") String description
-    ) {
-
-        return cartService.addToCart(file,title,categoryId,price,quantity,description);
-
-    }
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("/cart/addToCart")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public CartDTO create(
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam("title") String title,
+//            @RequestParam("categoryId") int categoryId,
+//            @RequestParam("price") double price,
+//            @RequestParam("quantity") int quantity,
+//            @RequestParam("description") String description
+//    ) {
+//
+//        return cartService.addToCart(file,title,categoryId,price,quantity,description);
+//
+//    }
 }

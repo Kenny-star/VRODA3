@@ -38,27 +38,27 @@ public class CartServiceImpl implements CartService{
         this.mapper = mapper;
     }
 
-//    @Override
-//    public CartDTO addToCart(CartIdLessDTO cart){
+    @Override
+    public CartDTO addToCart(CartIdLessDTO cart){
+
+        try{
+            Cart cartEntity = mapper.CartIdLessDtoToEntity(cart);
+            log.info("Calling product repo to create a product with productCategory: {}", cart.getCategoryId());
+            Cart createdEntity = cartRepository.save(cartEntity);
+
+            return mapper.EntityToModelDTO(createdEntity);
+
+//            List<Product> productCartList = new ArrayList<>();
+//            productCartList.add(productEntity);
 //
-//        try{
-//            Cart cartEntity = mapper.CartIdLessDtoToEntity(cart);
-//            log.info("Calling product repo to create a product with productCategory: {}", cart.getCategoryId());
-//            Cart createdEntity = cartRepository.save(cartEntity);
-//
-//            return mapper.EntityToModelDTO(createdEntity);
-//
-////            List<Product> productCartList = new ArrayList<>();
-////            productCartList.add(productEntity);
-////
-////            return productCartList;
-//
-//        }
-//        catch(DuplicateKeyException dke){
-//            throw new InvalidInputException("Duplicate productId.", dke);
-//        }
-//
-//    }
+//            return productCartList;
+
+        }
+        catch(DuplicateKeyException dke){
+            throw new InvalidInputException("Duplicate productId.", dke);
+        }
+
+    }
 
     @Override
     public List<CartDTO> getTheCart() {
@@ -76,36 +76,36 @@ public class CartServiceImpl implements CartService{
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
-    @Override
-    public CartDTO addToCart(MultipartFile file, String title, int categoryId, double price, int quantity, String description) {
-        try{
-            CartIdLessDTO product = new CartIdLessDTO();
-//            product.setProductId(randomUUID());
-            product.setCategoryId(categoryId);
-            product.setDescription(description);
-            product.setPrice(price);
-            product.setTitle(title);
-
-            String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
-            if(filename.contains("..")){
-                log.info("Incorrect file format. Try a valid image format");
-            }
-
-            product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-
-            Cart productEntity = mapper.CartIdLessDtoToEntity(product);
-            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
-            Cart createdEntity = cartRepository.save(productEntity);
-
-
-            return mapper.EntityToModelDTO(createdEntity);
-
-        }
-        catch(DuplicateKeyException | IOException dke){
-            throw new InvalidInputException("Duplicate productId.", dke);
-        }
-    }
+//    @Override
+//    public CartDTO addToCart(MultipartFile file, String title, int categoryId, double price, int quantity, String description) {
+//        try{
+//            CartIdLessDTO product = new CartIdLessDTO();
+////            product.setProductId(randomUUID());
+//            product.setCategoryId(categoryId);
+//            product.setDescription(description);
+//            product.setPrice(price);
+//            product.setTitle(title);
+//
+//            String filename = StringUtils.cleanPath(file.getOriginalFilename());
+//
+//            if(filename.contains("..")){
+//                log.info("Incorrect file format. Try a valid image format");
+//            }
+//
+//            product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+//
+//            Cart productEntity = mapper.CartIdLessDtoToEntity(product);
+//            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
+//            Cart createdEntity = cartRepository.save(productEntity);
+//
+//
+//            return mapper.EntityToModelDTO(createdEntity);
+//
+//        }
+//        catch(DuplicateKeyException | IOException dke){
+//            throw new InvalidInputException("Duplicate productId.", dke);
+//        }
+//    }
 
 
 

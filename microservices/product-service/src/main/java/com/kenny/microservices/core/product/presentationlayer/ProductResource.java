@@ -41,15 +41,15 @@ public class ProductResource {
         return productService.getProductById(product_id);
     }
 
-//    @CrossOrigin(origins = "*")
-//    @PostMapping("newProduct")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ProductDTO create(
-//            @Valid @RequestBody ProductIdLessDTO product) {
-//
-//        return productService.addProduct(product);
-//
-//    }
+    @CrossOrigin(origins = "*")
+    @PostMapping("newProduct")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductDTO create(
+            @Valid @RequestBody ProductIdLessDTO product) {
+
+        return productService.addProduct(product);
+
+    }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "products/{product_id}")
@@ -74,19 +74,19 @@ public class ProductResource {
         return productService.getProductByTitle(title);
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping("newProduct")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO create(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("title") String title,
-            @RequestParam("categoryId") int categoryId,
-            @RequestParam("price") double price,
-            @RequestParam("quantity") int quantity,
-            @RequestParam("description") String description
-            ) {
-
-        return productService.addProduct(file,title,categoryId,price,quantity,description);
-
-    }
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("newProduct")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ProductDTO create(
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam("title") String title,
+//            @RequestParam("categoryId") int categoryId,
+//            @RequestParam("price") double price,
+//            @RequestParam("quantity") int quantity,
+//            @RequestParam("description") String description
+//            ) {
+//
+//        return productService.addProduct(file,title,categoryId,price,quantity,description);
+//
+//    }
 }

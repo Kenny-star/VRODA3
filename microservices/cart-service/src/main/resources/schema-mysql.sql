@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS cart (
     price DOUBLE NOT NULL,
     quantity INT(4) UNSIGNED NOT NULL,
     description VARCHAR(8192),
-    image VARCHAR(8192)
+    image BLOB
     ) engine=InnoDB;

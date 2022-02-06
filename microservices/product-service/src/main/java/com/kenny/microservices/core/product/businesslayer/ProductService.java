@@ -16,16 +16,16 @@ public interface ProductService {
 
     public ProductDTO getProductById(String product_id);
 
-    //public ProductDTO addProduct(ProductIdLessDTO product);
+    public ProductDTO addProduct(ProductIdLessDTO product);
 
     public void deleteProduct(String product_id);
 
     List<ProductDTO> getProductByTitle(String title);
     
     public ProductDTO updateProduct(ProductDTO product);
-
-    public ProductDTO addProduct(MultipartFile file, String title,
-                                int categoryId,double price, int quantity,
-                                String description);
+//
+//    public ProductDTO addProduct(MultipartFile file, String title,
+//                                int categoryId,double price, int quantity,
+//                                String description);
 
 }

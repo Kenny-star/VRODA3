@@ -7,13 +7,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface CartService {
-    //public CartDTO addToCart(CartIdLessDTO product);
+    public CartDTO addToCart(CartIdLessDTO product);
 
     List<CartDTO> getTheCart();
 
     public void deleteCart(String product_id);
 
-    public CartDTO addToCart(MultipartFile file, String title,
-                                 int categoryId, double price, int quantity,
-                                 String description);
+//    public CartDTO addToCart(MultipartFile file, String title,
+//                                 int categoryId, double price, int quantity,
+//                                 String description);
 }
