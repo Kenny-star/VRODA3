@@ -8,6 +8,7 @@ import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -44,6 +45,7 @@ public class CartResource {
         cartService.deleteCart(product_id);
     }
 
+
     @CrossOrigin(origins = "*")
     @PutMapping(value = "/cart/update/{product_id}",
             consumes = "application/json",
@@ -53,4 +55,5 @@ public class CartResource {
         log.info("Updating cart {} - Ressource", cart);
         return cartService.updateCart(cart);
     }
+
 }

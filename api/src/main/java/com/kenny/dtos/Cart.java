@@ -21,4 +21,6 @@ public class Cart {
     private double price  = 0.0;
 
     private String description = null;
+
+    private String image = null;
 }

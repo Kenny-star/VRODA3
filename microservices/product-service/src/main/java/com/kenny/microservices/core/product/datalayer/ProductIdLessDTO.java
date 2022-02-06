@@ -15,4 +15,5 @@ public class ProductIdLessDTO {
     private double price;
     private int quantity;
     private String description;
+    private String image;
 }

@@ -7,7 +7,8 @@ CREATE TABLE product (
                          title               VARCHAR(8192),
                          price               DOUBLE NOT NULL,
                          quantity            INTEGER NOT NULL,
-                         description         VARCHAR(8192)
+                         description         VARCHAR(8192),
+                         image               BLOB
 );
 
 CREATE INDEX product_wallpaper_id ON product (product_id);

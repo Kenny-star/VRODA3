@@ -13,7 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,10 +48,6 @@ public class CartServiceImpl implements CartService{
 
             return mapper.EntityToModelDTO(createdEntity);
 
-//            List<Product> productCartList = new ArrayList<>();
-//            productCartList.add(productEntity);
-//
-//            return productCartList;
 
         }
         catch(DuplicateKeyException dke){
@@ -72,6 +72,7 @@ public class CartServiceImpl implements CartService{
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
+
     @Override
     public CartDTO updateCart(CartDTO updatedCart){
         Cart productEntity = mapper.CartDTOToEntity(updatedCart);
@@ -81,4 +82,5 @@ public class CartServiceImpl implements CartService{
         Cart updatedProductEntity = cartRepository.save(productEntity);
         return mapper.EntityToModelDTO(updatedProductEntity);
     }
+
 }
