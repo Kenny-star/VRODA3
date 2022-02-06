@@ -12,8 +12,7 @@ public interface CartService {
     List<CartDTO> getTheCart();
 
     public void deleteCart(String product_id);
+  
+    public CartDTO updateCart(CartDTO cart);
 
-//    public CartDTO addToCart(MultipartFile file, String title,
-//                                 int categoryId, double price, int quantity,
-//                                 String description);
 }

@@ -45,19 +45,15 @@ public class CartResource {
         cartService.deleteCart(product_id);
     }
 
-//    @CrossOrigin(origins = "*")
-//    @PostMapping("/cart/addToCart")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public CartDTO create(
-//            @RequestParam("file") MultipartFile file,
-//            @RequestParam("title") String title,
-//            @RequestParam("categoryId") int categoryId,
-//            @RequestParam("price") double price,
-//            @RequestParam("quantity") int quantity,
-//            @RequestParam("description") String description
-//    ) {
-//
-//        return cartService.addToCart(file,title,categoryId,price,quantity,description);
-//
-//    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(value = "/cart/update/{product_id}",
+            consumes = "application/json",
+            produces = "application/json")
+    public CartDTO updateCart(@PathVariable("product_id") String product_id, @Valid @RequestBody CartDTO cart){
+        cart.setProductId(product_id);
+        log.info("Updating cart {} - Ressource", cart);
+        return cartService.updateCart(cart);
+    }
+
 }

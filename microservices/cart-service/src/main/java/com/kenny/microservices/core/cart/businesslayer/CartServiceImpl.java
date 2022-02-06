@@ -48,10 +48,6 @@ public class CartServiceImpl implements CartService{
 
             return mapper.EntityToModelDTO(createdEntity);
 
-//            List<Product> productCartList = new ArrayList<>();
-//            productCartList.add(productEntity);
-//
-//            return productCartList;
 
         }
         catch(DuplicateKeyException dke){
@@ -76,37 +72,15 @@ public class CartServiceImpl implements CartService{
         LOG.debug("Product of ID: " + product_id + "has been deleted.");
     }
 
-//    @Override
-//    public CartDTO addToCart(MultipartFile file, String title, int categoryId, double price, int quantity, String description) {
-//        try{
-//            CartIdLessDTO product = new CartIdLessDTO();
-////            product.setProductId(randomUUID());
-//            product.setCategoryId(categoryId);
-//            product.setDescription(description);
-//            product.setPrice(price);
-//            product.setTitle(title);
-//
-//            String filename = StringUtils.cleanPath(file.getOriginalFilename());
-//
-//            if(filename.contains("..")){
-//                log.info("Incorrect file format. Try a valid image format");
-//            }
-//
-//            product.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-//
-//            Cart productEntity = mapper.CartIdLessDtoToEntity(product);
-//            log.info("Calling product repo to create a product with productCategory: {}", product.getCategoryId());
-//            Cart createdEntity = cartRepository.save(productEntity);
-//
-//
-//            return mapper.EntityToModelDTO(createdEntity);
-//
-//        }
-//        catch(DuplicateKeyException | IOException dke){
-//            throw new InvalidInputException("Duplicate productId.", dke);
-//        }
-//    }
 
-
+    @Override
+    public CartDTO updateCart(CartDTO updatedCart){
+        Cart productEntity = mapper.CartDTOToEntity(updatedCart);
+        Optional<Cart> product = cartRepository.findProductByProductId(UUID.fromString(updatedCart.getProductId()));
+        productEntity.setId(product.get().getId());
+        log.info("Updating cart item with productId: {}", product.get().getProductId());
+        Cart updatedProductEntity = cartRepository.save(productEntity);
+        return mapper.EntityToModelDTO(updatedProductEntity);
+    }
 
 }

@@ -78,7 +78,8 @@ public class ExceptionTests {
     @Test
     @DisplayName("Http Error with constructor")
     public void shouldThrowHttpErrorInfoWithConstructorTest(){
-        HttpErrorInfo httpErrorInfo = new HttpErrorInfo(HttpStatus.BAD_REQUEST, "/products/10000", "Product does not exist");
+        HttpErrorInfo httpErrorInfo = new HttpErrorInfo(HttpStatus.BAD_REQUEST, "/products/10000",
+                "Product does not exist");
         assertEquals(httpErrorInfo.getHttpStatus(), HttpStatus.BAD_REQUEST);
         assertEquals(httpErrorInfo.getPath(), "/products/10000");
         assertEquals(httpErrorInfo.getMessage(), "Product does not exist");

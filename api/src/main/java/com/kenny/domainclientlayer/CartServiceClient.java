@@ -3,6 +3,7 @@ package com.kenny.domainclientlayer;
 
 import com.kenny.dtos.Cart;
 import com.kenny.dtos.Product;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class CartServiceClient {
 
@@ -51,5 +53,18 @@ public class CartServiceClient {
                 .uri(hostname + "/cart/delete/{product_id}", product_id)
                 .retrieve()
                 .bodyToMono(Void.class);
+    }
+
+    public Mono<Cart> updateCart(Cart cart){
+
+        log.info("Getting products - Client");
+
+        return webClientBuilder.build()
+                .put()
+                .uri(hostname + "/cart/update/{product_id}", cart.getProductId())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(cart), Cart.class)
+                .retrieve()
+                .bodyToMono(Cart.class);
     }
 }
