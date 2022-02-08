@@ -3,6 +3,7 @@ package com.kenny.domainclientlayer;
 
 import com.kenny.dtos.User;
 import com.kenny.dtos.UserDetails;
+import com.kenny.dtos.UserDetailsAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +34,25 @@ public class AuthServiceClient {
                 .bodyToFlux(User.class);
     }
 
-    public Mono<ResponseEntity<String>> createUser(UserDetails userDetails) {
+    public Mono<ResponseEntity<String>> signinUser(UserDetails userDetails) {
         return webClientBuilder.build().post()
-                .uri(hostname + "/registration")
+                .uri(hostname + "/signin")
+                .body(Mono.just(userDetails), UserDetails.class)
+                .retrieve()
+                .toEntity(String.class);
+    }
+
+    public Mono<ResponseEntity<String>> signupUser(UserDetailsAuth userDetailsAuth) {
+        return webClientBuilder.build().post()
+                .uri(hostname + "/signup")
+                .body(Mono.just(userDetailsAuth), UserDetailsAuth.class)
+                .retrieve()
+                .toEntity(String.class);
+    }
+
+    public Mono<ResponseEntity<String>> hello(UserDetails userDetails) {
+        return webClientBuilder.build().post()
+                .uri(hostname + "/hello")
                 .body(Mono.just(userDetails), UserDetails.class)
                 .retrieve()
                 .toEntity(String.class);

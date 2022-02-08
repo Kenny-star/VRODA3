@@ -27,23 +27,21 @@ dependencies {
     implementation('mysql:mysql-connector-java')
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     compile group: 'org.datanucleus', name: 'javax.persistence', version: '2.2.0-m3'
-
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.3.2.RELEASE'
-    implementation('javax.mail:javax.mail-api:1.6.2')
-    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
-    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
-    runtimeOnly 'com.h2database:h2'
-
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.3.RELEASE'
+//Thanks for using https://jar-download.com
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation('com.h2database:h2')
-    implementation group: 'com.google.guava', name: 'guava', version: '11.0.2'
+// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
+    compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 }
 

@@ -22,6 +22,7 @@ dependencies {
 	implementation('mysql:mysql-connector-java')
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+
 	implementation("org.mapstruct:mapstruct:${mapstructVersion}")
 	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

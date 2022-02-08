@@ -11,12 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 public class UserDetails {
 
-    private String firstName = null;
+    private String username;
 
-    private String lastName = null;
+    private String password;
 
-    private String email = null;
-
-    private String password = null;
 
 }
