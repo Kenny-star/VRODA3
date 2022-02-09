@@ -9,6 +9,10 @@ app:
     host: localhost
     port: 7002
 
+  auth-service:
+    hots: localhost
+    port: 7002
+
 logging:
   level:
     root: INFO
@@ -26,3 +30,6 @@ app:
     host: cart
     port: 8080
 
+  auth-service:
+    host: auth
+    port: 8080

@@ -53,6 +53,8 @@ services:
     volumes:
       - ./data/mysql30:/var/lib/mysql30
       - ./data/init.d:/docker-entrypoint-initdb.d
+#     - mysql-data:/var/lib/mysql30
+
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost"]
       interval: 10s
@@ -64,15 +66,16 @@ services:
     platform: linux/amd64
     #mem_limit: 350m
     ports:
-      - "3321:3306"
+      - "3330:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=rootpwd
-      - MYSQL_DATABASE=product-db
+      - MYSQL_DATABASE=vrodadb1
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pwd
     volumes:
       - ./data/mysql31:/var/lib/mysql31
       - ./data/init.d:/docker-entrypoint-initdb.d
+#     - mysql-data:/var/lib/mysql31
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost" ]
       interval: 10s
@@ -94,7 +97,10 @@ services:
       - ./data/mysql32:/var/lib/mysql32
       - ./data/init.d:/docker-entrypoint-initdb.d
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost" ]
+      test: ["CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 10
+
+#volumes:
+#  mysql-data:

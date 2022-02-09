@@ -1,6 +1,7 @@
 package com.kenny.presentationlayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Cart;
@@ -42,6 +43,9 @@ class ApiGatewayControllerTests {
     @MockBean
     private ProductServiceClient productServiceClient;
 
+    @MockBean
+    private AuthServiceClient authServiceClient;
+  
     @MockBean
     private CartServiceClient cartServiceClient;
 

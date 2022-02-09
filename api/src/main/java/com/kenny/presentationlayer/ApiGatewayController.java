@@ -1,16 +1,19 @@
 package com.kenny.presentationlayer;
 
+import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
 import com.kenny.dtos.Cart;
 import com.kenny.dtos.Product;
+import com.kenny.dtos.User;
+import com.kenny.dtos.UserDetails;
+import com.kenny.dtos.UserDetailsAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController()
@@ -19,13 +22,57 @@ import java.util.UUID;
 @RequestMapping("/api/gateway")
 public class ApiGatewayController {
     private final ProductServiceClient productServiceClient;
+    private final AuthServiceClient authServiceClient;
     private final CartServiceClient cartServiceClient;
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "signin",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<ResponseEntity<String>> signinUser(@RequestBody UserDetails userDetails) {
+        log.info("loging user ");
+        return authServiceClient.signinUser(userDetails);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "hello",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<ResponseEntity<String>> hello(@RequestBody UserDetails userDetails) {
+        log.info("hello user ");
+        return authServiceClient.hello(userDetails);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "signup",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<ResponseEntity<String>> createUser(@RequestBody UserDetailsAuth userDetailsAuth) {
+        log.info("registering user ");
+        return authServiceClient.signupUser(userDetailsAuth);
+
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "products")
     public Flux<Product> getAllProduct() {
         log.info("Getting products ");
         return productServiceClient.getAllProducts();
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "users")
+    public Flux<User> getAllUser() {
+        log.info("Getting products ");
+        return authServiceClient.getAllUsers();
     }
 
     @CrossOrigin(origins = "*")
