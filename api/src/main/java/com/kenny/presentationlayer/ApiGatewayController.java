@@ -1,7 +1,9 @@
 package com.kenny.presentationlayer;
 
 import com.kenny.domainclientlayer.AuthServiceClient;
+import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
+import com.kenny.dtos.Cart;
 import com.kenny.dtos.Product;
 import com.kenny.dtos.User;
 import com.kenny.dtos.UserDetails;
@@ -21,7 +23,7 @@ import reactor.core.publisher.Mono;
 public class ApiGatewayController {
     private final ProductServiceClient productServiceClient;
     private final AuthServiceClient authServiceClient;
-
+    private final CartServiceClient cartServiceClient;
 
     @CrossOrigin(origins = "*")
     @PostMapping(
@@ -114,5 +116,39 @@ public class ApiGatewayController {
         return productServiceClient.getProductByTitle(title);
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "/cart/addToCart",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<Cart> addToCart(@RequestBody Cart cart) {
+        return cartServiceClient.addToCart(cart);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "cart")
+    public Flux<Cart> getTheCart() {
+        log.info("Getting products ");
+        return cartServiceClient.getTheCart();
+    }
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping (value = "/cart/delete/{product_id}")
+    public Mono<Void> deleteCart(final @PathVariable String product_id){
+        return cartServiceClient.deleteCart(product_id);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping(
+            value = "/cart/update/{product_id}",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<Cart> updateCart(@PathVariable String product_id, @RequestBody Cart cart){
+        cart.setProductId(product_id);
+        log.info("Getting products - Controller");
+        return cartServiceClient.updateCart( cart);
+    }
 
 }

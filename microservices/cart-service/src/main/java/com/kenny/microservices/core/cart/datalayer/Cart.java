@@ -1,5 +1,4 @@
-package com.kenny.microservices.core.product.datalayer;
-
+package com.kenny.microservices.core.cart.datalayer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -14,13 +13,13 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "product")
-@Builder(builderMethodName = "product")
+@Table(name = "cart")
+@Builder(builderMethodName = "cart")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +53,5 @@ public class Product {
 
     @Column(name = "image")
     private String image;
-
 
 }

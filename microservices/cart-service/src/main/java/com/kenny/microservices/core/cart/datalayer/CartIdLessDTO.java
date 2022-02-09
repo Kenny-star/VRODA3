@@ -1,4 +1,4 @@
-package com.kenny.microservices.core.product.datalayer;
+package com.kenny.microservices.core.cart.datalayer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductIdLessDTO {
+public class CartIdLessDTO {
     private int categoryId;
     private String title;
     private double price;

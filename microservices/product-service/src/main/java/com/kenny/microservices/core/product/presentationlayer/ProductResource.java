@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -50,6 +51,7 @@ public class ProductResource {
         return productService.addProduct(product);
 
     }
+
     @CrossOrigin(origins = "*")
     @DeleteMapping(value = "products/{product_id}")
     public void deleteProduct(@PathVariable("product_id") String product_id){
@@ -72,4 +74,20 @@ public class ProductResource {
         log.info("Getting product by title: {}", title);
         return productService.getProductByTitle(title);
     }
+
+//    @CrossOrigin(origins = "*")
+//    @PostMapping("newProduct")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ProductDTO create(
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam("title") String title,
+//            @RequestParam("categoryId") int categoryId,
+//            @RequestParam("price") double price,
+//            @RequestParam("quantity") int quantity,
+//            @RequestParam("description") String description
+//            ) {
+//
+//        return productService.addProduct(file,title,categoryId,price,quantity,description);
+//
+//    }
 }

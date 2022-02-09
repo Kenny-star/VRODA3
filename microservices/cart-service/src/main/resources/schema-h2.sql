@@ -1,6 +1,6 @@
-DROP TABLE product IF EXISTS;
+DROP TABLE cart IF EXISTS;
 
-CREATE TABLE product (
+CREATE TABLE cart (
                          id                  INTEGER IDENTITY PRIMARY KEY,
                          product_id          VARCHAR(36) NOT NULL UNIQUE,
                          category_id         INTEGER NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE product (
                          image               BLOB
 );
 
-CREATE INDEX product_wallpaper_id ON product (product_id);
+CREATE INDEX product_wallpaper_id ON cart (product_id);

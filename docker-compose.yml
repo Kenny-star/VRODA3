@@ -26,6 +26,18 @@ services:
     depends_on:
       - product
       - auth
+      - cart
+
+  cart:
+    build: microservices/cart-service
+    hostname: cart
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mysql32:
+        condition: service_healthy
+#      - product
+
 
   mysql30:
     image: mysql:5.7
@@ -41,7 +53,7 @@ services:
     volumes:
       - ./data/mysql30:/var/lib/mysql30
       - ./data/init.d:/docker-entrypoint-initdb.d
-#      - mysql-data:/var/lib/mysql30
+#     - mysql-data:/var/lib/mysql30
 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost"]
@@ -63,7 +75,27 @@ services:
     volumes:
       - ./data/mysql31:/var/lib/mysql31
       - ./data/init.d:/docker-entrypoint-initdb.d
-#      - mysql-data:/var/lib/mysql31
+#     - mysql-data:/var/lib/mysql31
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mysql32:
+    image: mysql:5.7
+    platform: linux/amd64
+    #mem_limit: 350m
+    ports:
+      - "3322:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpwd
+      - MYSQL_DATABASE=cart-db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pwd
+    volumes:
+      - ./data/mysql32:/var/lib/mysql32
+      - ./data/init.d:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-uuser", "-ppwd", "-h", "localhost"]
       interval: 10s
