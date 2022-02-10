@@ -7,7 +7,7 @@ app:
     port: 7001
   cart-service:
     host: localhost
-    port: 7002
+    port: 7003
 
   auth-service:
     hots: localhost
