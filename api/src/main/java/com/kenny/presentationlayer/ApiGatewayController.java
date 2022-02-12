@@ -3,11 +3,7 @@ package com.kenny.presentationlayer;
 import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
-import com.kenny.dtos.Cart;
-import com.kenny.dtos.Product;
-import com.kenny.dtos.User;
-import com.kenny.dtos.UserDetails;
-import com.kenny.dtos.UserDetailsAuth;
+import com.kenny.dtos.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +23,7 @@ public class ApiGatewayController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(
-            value = "signin",
+            value = "auth/signin",
             consumes = "application/json",
             produces = "application/json"
     )
@@ -51,13 +47,56 @@ public class ApiGatewayController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(
-            value = "signup",
+            value = "auth/signup",
             consumes = "application/json",
             produces = "application/json"
     )
-    public Mono<ResponseEntity<String>> createUser(@RequestBody UserDetailsAuth userDetailsAuth) {
+    public Mono<ResponseEntity<String>> SignupUser(@RequestBody UserDetailsAuth userDetailsAuth) {
         log.info("registering user ");
         return authServiceClient.signupUser(userDetailsAuth);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(
+            value = "auth/refreshToken",
+            consumes = "application/json",
+            produces = "application/json"
+    )
+    public Mono<ResponseEntity<String>> ValidateRefreshToken(@RequestBody RefreshToken refreshToken) {
+        log.info("validating refresh token ");
+        return authServiceClient.validateRefreshToken(refreshToken);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "role/user")
+    public Mono<ResponseEntity<String>> getUserBoard(@RequestHeader String Authorization) {
+        log.info("getting user pre-authorized board ");
+        return authServiceClient.getUserBoard(Authorization);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "role/clerk")
+    public Mono<ResponseEntity<String>> getClerkBoard(@RequestHeader String Authorization) {
+        log.info("getting clerk pre-authorized board ");
+        return authServiceClient.getClerkBoard(Authorization);
+
+    }
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "role/admin")
+    public Mono<ResponseEntity<String>> getAdminBoard(@RequestHeader String Authorization) {
+        log.info("getting admin pre-authorized board ");
+        return authServiceClient.getAdminBoard(Authorization);
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "role/public")
+    public Mono<ResponseEntity<String>> getPublicBoard() {
+        log.info("getting public board ");
+        return authServiceClient.getPublicBoard();
 
     }
 

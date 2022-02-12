@@ -12,7 +12,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 jwt.secret: thisismyvrodasecretkey
-jwt.exp: 1800000
+jwt.jwtExpirationMs: 1800000
+jwt.jwtRefreshExpirationMs: 3600000
 
 ---
 spring:
