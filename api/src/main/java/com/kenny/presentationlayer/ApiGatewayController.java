@@ -79,16 +79,16 @@ public class ApiGatewayController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "role/clerk")
-    public Mono<ResponseEntity<String>> getClerkBoard() {
+    public Mono<ResponseEntity<String>> getClerkBoard(@RequestHeader String Authorization) {
         log.info("getting clerk pre-authorized board ");
-        return authServiceClient.getClerkBoard();
+        return authServiceClient.getClerkBoard(Authorization);
 
     }
     @CrossOrigin(origins = "*")
     @GetMapping(value = "role/admin")
-    public Mono<ResponseEntity<String>> getAdminBoard() {
+    public Mono<ResponseEntity<String>> getAdminBoard(@RequestHeader String Authorization) {
         log.info("getting admin pre-authorized board ");
-        return authServiceClient.getAdminBoard();
+        return authServiceClient.getAdminBoard(Authorization);
 
     }
 

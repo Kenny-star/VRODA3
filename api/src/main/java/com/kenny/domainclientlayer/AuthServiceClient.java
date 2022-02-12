@@ -72,14 +72,12 @@ public class AuthServiceClient {
                 .toEntity(String.class);
     }
 
-    public Mono<ResponseEntity<String>> getUserBoard(String Authorization) {
-
-        log.info(Authorization);
+    public Mono<ResponseEntity<String>> getUserBoard(String token) {
 
         return webClientBuilder.build().get()
                 .uri(hostname + "/role/user")
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", Authorization)
+                .header("Authorization", token)
                 .retrieve()
                 .toEntity(String.class);
 
@@ -87,18 +85,19 @@ public class AuthServiceClient {
 
 
 
-    public Mono<ResponseEntity<String>> getClerkBoard() {
+    public Mono<ResponseEntity<String>> getClerkBoard(String token) {
         return webClientBuilder.build().get()
                 .uri(hostname + "/role/clerk")
                 .accept(MediaType.APPLICATION_JSON)
-                //.header("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb3JnZUJ1c2gzNDU2IiwiaWF0IjoxNjQ0NTI1NTE3LCJleHAiOjE2NDQ1MjczMTd9._bM-VJqezH_bKWqZaz_7s2BtYkA3f4LH36N52DnBRiKfFQuIBlUvwOfCyjjSkMbpwGvAeQW6PpY6DVwQSnPWnw" )
+                .header("Authorization", token)
                 .retrieve()
                 .toEntity(String.class);
     }
-    public Mono<ResponseEntity<String>> getAdminBoard() {
+    public Mono<ResponseEntity<String>> getAdminBoard(String token) {
         return webClientBuilder.build().get()
                 .uri(hostname + "/role/admin")
-                .header(HttpHeaders.AUTHORIZATION)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", token)
                 .retrieve()
                 .toEntity(String.class);
     }
