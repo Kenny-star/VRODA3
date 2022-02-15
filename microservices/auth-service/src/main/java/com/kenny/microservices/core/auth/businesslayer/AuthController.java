@@ -49,6 +49,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -65,6 +66,7 @@ public class AuthController {
 
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
@@ -79,6 +81,7 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {

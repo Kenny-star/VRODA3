@@ -15,18 +15,21 @@ public class TestController {
         return "Public Content.";
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('CLERK') or hasRole('ADMIN')")
     public String userAccess() {
         return "User Content.";
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/clerk")
     @PreAuthorize("hasRole('CLERK')")
     public String moderatorAccess() {
         return "Clerk Board.";
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {

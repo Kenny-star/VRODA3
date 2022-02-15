@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenny.domainclientlayer.AuthServiceClient;
 import com.kenny.domainclientlayer.CartServiceClient;
 import com.kenny.domainclientlayer.ProductServiceClient;
-import com.kenny.dtos.Cart;
-import com.kenny.dtos.Product;
+import com.kenny.dtos.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,28 +14,29 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = ApiGatewayController.class)
 @AutoConfigureWebTestClient
 class ApiGatewayControllerTests {
 
+    private static final Set<String> ROLE_CLERK = Collections.singleton("ROLE_CLERK");
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -529,5 +529,87 @@ class ApiGatewayControllerTests {
 
         assertEquals(null,cartServiceClient.getTheCart());
 
+    }
+
+    @Test
+    @DisplayName("Should successfully register a user")
+    void shouldAddUserSuccessfullyThroughRegisteration(){
+        UserDetailsAuth user = new UserDetailsAuth();
+        user.setUsername("Donut King");
+        user.setPassword("OmegaDonut");
+        user.setEmail("Donut@gmail.com");
+        user.setRole(ROLE_CLERK);
+
+        Mono<ResponseEntity<String>> responseEntity = authServiceClient.signupUser(user);
+        when(authServiceClient.signupUser(user))
+                .thenReturn(responseEntity);
+
+        client.post()
+                .uri("/api/gateway/auth/signup")
+                .body(Mono.just(user), UserDetailsAuth.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(authServiceClient, times(2)).signupUser(user);
+    }
+
+    @Test
+    @DisplayName("Should successfully login a user")
+    void shouldAuthenticateUserSuccessfullyThroughLogin(){
+        UserDetailsAuth user = new UserDetailsAuth();
+        user.setUsername("Donut King");
+        user.setPassword("OmegaDonut");
+        user.setEmail("Donut@gmail.com");
+        user.setRole(ROLE_CLERK);
+
+        Mono<ResponseEntity<String>> responseEntity = authServiceClient.signupUser(user);
+        when(authServiceClient.signupUser(user))
+                .thenReturn(responseEntity);
+
+        client.post()
+                .uri("/api/gateway/auth/signup")
+                .body(Mono.just(user), UserDetailsAuth.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk();
+
+        UserDetails userCredentials = new UserDetails();
+        userCredentials.setUsername(user.getUsername());
+        userCredentials.setPassword(user.getPassword());
+
+        Mono<ResponseEntity<String>> responseEntity2 = authServiceClient.signinUser(userCredentials);
+        when(authServiceClient.signinUser(userCredentials))
+                .thenReturn(responseEntity2);
+
+        client.post()
+                .uri("/api/gateway/auth/signin")
+                .body(Mono.just(userCredentials), UserDetails.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(authServiceClient, times(2)).signinUser(userCredentials);
+        verify(authServiceClient, times(2)).signupUser(user);
+    }
+
+    @Test
+    @DisplayName("Should validate user refresh token")
+    void shouldAuthenticateUserSuccessfullyThroughRefreshToken(){
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setRefreshToken("1860ce26-c68e-4237-8fe0-664ca64eff90");
+
+        Mono<ResponseEntity<String>> responseEntity = authServiceClient.validateRefreshToken(refreshToken);
+        when(authServiceClient.validateRefreshToken(refreshToken))
+                .thenReturn(responseEntity);
+
+        client.post()
+                .uri("/api/gateway/auth/refreshToken")
+                .body(Mono.just(refreshToken), RefreshToken.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk();
+
+        verify(authServiceClient, times(2)).validateRefreshToken(refreshToken);
     }
 }
