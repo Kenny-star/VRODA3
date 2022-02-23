@@ -592,7 +592,7 @@ class ApiGatewayControllerTests {
         verify(authServiceClient, times(2)).signinUser(userCredentials);
         verify(authServiceClient, times(2)).signupUser(user);
     }
-
+/*
     @Test
     @DisplayName("Should validate user refresh token")
     void shouldAuthenticateUserSuccessfullyThroughRefreshToken(){
@@ -612,4 +612,6 @@ class ApiGatewayControllerTests {
 
         verify(authServiceClient, times(2)).validateRefreshToken(refreshToken);
     }
+
+ */
 }

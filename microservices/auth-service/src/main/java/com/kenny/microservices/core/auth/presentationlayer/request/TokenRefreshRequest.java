@@ -1,7 +1,7 @@
 package com.kenny.microservices.core.auth.presentationlayer.request;
 
 import javax.validation.constraints.NotBlank;
-
+/*
 public class TokenRefreshRequest {
     @NotBlank
     private String refreshToken;
@@ -12,3 +12,4 @@ public class TokenRefreshRequest {
         this.refreshToken = refreshToken;
     }
 }
+*/

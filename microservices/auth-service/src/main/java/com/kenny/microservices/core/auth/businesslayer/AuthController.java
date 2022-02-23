@@ -1,13 +1,13 @@
 package com.kenny.microservices.core.auth.businesslayer;
 
-import com.kenny.microservices.core.auth.Exception.TokenRefreshException;
+//import com.kenny.microservices.core.auth.Exception.TokenRefreshException;
 import com.kenny.microservices.core.auth.datalayer.*;
 import com.kenny.microservices.core.auth.presentationlayer.request.LoginRequest;
 import com.kenny.microservices.core.auth.presentationlayer.request.SignupRequest;
-import com.kenny.microservices.core.auth.presentationlayer.request.TokenRefreshRequest;
+//import com.kenny.microservices.core.auth.presentationlayer.request.TokenRefreshRequest;
 import com.kenny.microservices.core.auth.presentationlayer.response.JwtResponse;
 import com.kenny.microservices.core.auth.presentationlayer.response.MessageResponse;
-import com.kenny.microservices.core.auth.presentationlayer.response.TokenRefreshResponse;
+//import com.kenny.microservices.core.auth.presentationlayer.response.TokenRefreshResponse;
 import com.kenny.microservices.core.auth.security.jwt.JwtUtils;
 import com.kenny.microservices.core.auth.security.services.UserDetailsImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
-    RefreshTokenService refreshTokenService;
+//  @Autowired
+//  RefreshTokenService refreshTokenService;
 
     @Autowired
     UserRepository userRepository;
@@ -52,20 +52,22 @@ public class AuthController {
     @CrossOrigin(origins = "*")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String jwt = jwtUtils.generateJwtToken(userDetails);
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
-                userDetails.getUsername(), userDetails.getEmail(), roles));
-
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
-
+/*
     @CrossOrigin(origins = "*")
     @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
@@ -80,7 +82,7 @@ public class AuthController {
                 .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
                         "Refresh token is not in database!"));
     }
-
+*/
     @CrossOrigin(origins = "*")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -138,7 +140,7 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
+/*
     @CrossOrigin(origins = "*")
     @PostMapping("hello")
 //@ResponseStatus(HttpStatus.OK)
@@ -148,7 +150,7 @@ public class AuthController {
         List<String> list = new ArrayList<>();
         list.add("chickent");
         //return ResponseEntity.ok(new JwtResponse("hello", 2L,"gekki","efe@.con",list));
-        log.info(String.valueOf(new JwtResponse("yo","hello", 2L,"gekki","efe@.con",list)));
-        return ResponseEntity.ok(new JwtResponse("up","hello", 2L,"gekki","efe@.con",list));
-    }
+        log.info(String.valueOf(new JwtResponse("yo", "2L","gekki","efe@.con",list)));
+        return ResponseEntity.ok(new JwtResponse("up", ,"gekki","efe@.con",list));
+    }*/
 }

@@ -13,7 +13,7 @@ logging:
 
 jwt.secret: thisismyvrodasecretkey
 jwt.jwtExpirationMs: 1800000
-jwt.jwtRefreshExpirationMs: 3600000
+#jwt.jwtRefreshExpirationMs: 3600000
 
 ---
 spring:

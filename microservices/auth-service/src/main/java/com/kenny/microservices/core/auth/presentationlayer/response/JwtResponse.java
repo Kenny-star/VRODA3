@@ -1,20 +1,21 @@
 package com.kenny.microservices.core.auth.presentationlayer.response;
 
 import java.util.List;
+import java.util.UUID;
 
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
-    private String refreshToken;
-    private Long id;
+    //private String refreshToken;
+    private Long userid;
     private String username;
     private String email;
     private List<String> roles;
 
-    public JwtResponse(String accessToken, String refreshToken, Long id, String username, String email, List<String> roles) {
+    public JwtResponse(String accessToken, Long userid, String username, String email, List<String> roles) {
         this.token = accessToken;
-        this.refreshToken = refreshToken;
-        this.id = id;
+        //this.refreshToken = refreshToken;
+        this.userid = userid;
         this.username = username;
         this.email = email;
         this.roles = roles;
@@ -28,14 +29,14 @@ public class JwtResponse {
         this.token = accessToken;
     }
 
-    public String getRefreshToken() {
+    /*public String getRefreshToken() {
         return refreshToken;
     }
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
-
+    */
     public String getTokenType() {
         return type;
     }
@@ -44,12 +45,12 @@ public class JwtResponse {
         this.type = tokenType;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserid() {
+        return userid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     public String getEmail() {

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
-
+/*
 @RestControllerAdvice
 public class TokenControllerAdvice {
     @ExceptionHandler(value = TokenRefreshException.class)
@@ -20,4 +20,4 @@ public class TokenControllerAdvice {
                 request.getDescription(false));
     }
 }
-
+*/

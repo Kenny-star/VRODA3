@@ -2,7 +2,7 @@ package com.kenny.microservices.core.auth.datalayer;
 
 import javax.persistence.*;
 import java.time.Instant;
-
+/*
 @Entity
 @Table(name = "refreshtoken")
 public class RefreshToken {
@@ -54,3 +54,4 @@ public class RefreshToken {
         this.expiryDate = expiryDate;
     }
 }
+*/
