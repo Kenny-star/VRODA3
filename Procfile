@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/demo-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -Dokta.oauth2.client-id=$0oa3yile9arnRFp1P5d7 -Dokta.oauth2.client-secret=$qZBZEphfpYqwHjGALzNIzgDxD4GttT-DEldMmQTY -jar microservices/*/build/libs/*.jar
