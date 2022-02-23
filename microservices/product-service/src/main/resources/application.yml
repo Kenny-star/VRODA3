@@ -12,29 +12,40 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 ---
-spring.profiles: h2
 
 spring:
-  h2:
-    console:
-      enabled: true
-
-  datasource:
-    platform: h2
-    url: jdbc:h2:mem:product-db;DB_CLOSE_DELAY=-1
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    initialization-mode: always
-
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+
+spring.datasource:
+  url: jdbc:mysql://bbc6a5a6ee5bdd:82f9ac32@us-cdbr-east-05.cleardb.net/heroku_897ab759ea43fc3?reconnect=true
+  username: bbc6a5a6ee5bdd
+  password: 82f9ac32
+#spring.profiles: h2
+#
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#
+#  datasource:
+#    platform: h2
+#    url: jdbc:h2:mem:product-db;DB_CLOSE_DELAY=-1
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+#    initialization-mode: always
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: none
+#
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.H2Dialect
 
 spring.datasource.hikari.initializationFailTimeout: 60000
 
