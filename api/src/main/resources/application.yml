@@ -1,17 +1,17 @@
-server.port: ${PORT:5000}
+server.port: 7000
 server.error.include-message: always
 
 app:
   product-service:
     host: localhost
-    port: ${PORT:5000}
+    port: 7001
   cart-service:
     host: localhost
-    port: ${PORT:5000}
+    port: 7003
 
   auth-service:
     hots: localhost
-    port: ${PORT:5000}
+    port: 7002
 
 logging:
   level:
